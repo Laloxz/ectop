@@ -163,26 +163,57 @@
       }
     }
 
-    // REGISTRAR EN FIREBASE EN TIEMPO REAL EL ESCANEO INICIAL
+    const SUPA_URL = "https://kscspiaozrgocmtyivov.supabase.co";
+    const SUPA_KEY = "sb_publishable_w7rm1v73bUDZ3FWhNpkkDA_Wc7MJUCD";
+
+    function supaHeaders(conEscritura = false){
+      const h = {
+        "apikey": SUPA_KEY,
+        "Authorization": "Bearer " + SUPA_KEY
+      };
+      if(conEscritura){
+        h["Content-Type"] = "application/json";
+        h["Prefer"] = "resolution=merge-duplicates,return=minimal";
+      }
+      return h;
+    }
+
+    // REGISTRAR EN SUPABASE EN TIEMPO REAL EL ESCANEO INICIAL
     async function reportarEscaneoInicial(){
       try{
-        const urlScan = "https://control-de-acceso-ectop-default-rtdb.firebaseio.com/ectop_qr_scans/" + encodeURIComponent(cod) + ".json";
-        await fetch(urlScan, {
-          method: "PATCH",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify({
-            scanned: true,
-            timestamp: Date.now(),
-            tipo: tipo,
-            codigo: cod,
-            planta: planta
-          })
+        const qrRoomId = "QR_SCAN_" + String(cod || '').trim();
+        const rExist = await fetch(SUPA_URL + "/rest/v1/ectop_sync_state?room_id=eq." + encodeURIComponent(qrRoomId) + "&select=payload", {
+          headers: supaHeaders(false),
+          cache: "no-store"
+        }).catch(()=>null);
+        if(rExist && rExist.ok){
+          const rows = await rExist.json().catch(()=>null);
+          if(Array.isArray(rows) && rows[0] && rows[0].payload && rows[0].payload.signed){
+            return;
+          }
+        }
+        const ahoraTs = Date.now();
+        await fetch(SUPA_URL + "/rest/v1/ectop_sync_state?on_conflict=room_id", {
+          method: "POST",
+          headers: supaHeaders(true),
+          body: JSON.stringify([{
+            room_id: qrRoomId,
+            payload: {
+              scanned: true,
+              timestamp: ahoraTs,
+              tipo: tipo,
+              codigo: cod,
+              planta: planta
+            },
+            updated_at: ahoraTs,
+            updated_by: "QR_SCANNER"
+          }])
         });
       }catch(e){}
     }
     reportarEscaneoInicial();
 
-    // ENVIAR FIRMA DIGITAL CON NOMBRE Y RUT A FIREBASE
+    // ENVIAR FIRMA DIGITAL CON NOMBRE Y RUT A SUPABASE
     async function enviarFirmaDigital(){
       const nom = (document.getElementById('firmante_nombre').value || '').trim().toUpperCase();
       const rut = (document.getElementById('firmante_rut').value || '').trim().toUpperCase();
@@ -211,7 +242,9 @@
       btn.className = "w-full bg-slate-700 text-slate-300 py-3 px-4 rounded-xl font-black text-xs uppercase cursor-not-allowed";
 
       try{
-        const urlScan = "https://control-de-acceso-ectop-default-rtdb.firebaseio.com/ectop_qr_scans/" + encodeURIComponent(cod) + ".json";
+        const ahora = new Date();
+        const ahoraTs = Date.now();
+        const qrRoomId = "QR_SCAN_" + String(cod || '').trim();
         const payload = {
           scanned: true,
           signed: true,
@@ -223,51 +256,48 @@
           empresa: emp,
           patente: pat,
           planta: planta,
-          timestamp: Date.now()
+          timestamp: ahoraTs
         };
 
-        await fetch(urlScan, {
-          method: "PUT",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify(payload)
+        const resScan = await fetch(SUPA_URL + "/rest/v1/ectop_sync_state?on_conflict=room_id", {
+          method: "POST",
+          headers: supaHeaders(true),
+          body: JSON.stringify([{
+            room_id: qrRoomId,
+            payload: payload,
+            updated_at: ahoraTs,
+            updated_by: nom || "PORTAL_QR"
+          }])
         });
+        if(!resScan.ok) throw new Error("HTTP " + resScan.status);
 
-        // Sincronizar también en directo con Supabase PostgreSQL (tabla ectop_flayers_prevencion)
+        // Sincronizar también en tabla SQL oficial ectop_flayers_prevencion (esquema homologado SAP)
         try {
-          const ahora = new Date();
           const fechaStr = ahora.toLocaleDateString('es-CL');
           const horaStr = ahora.toLocaleTimeString('es-CL', {hour:'2-digit', minute:'2-digit'});
           const venc = new Date(ahora);
           venc.setFullYear(venc.getFullYear() + 1);
           const vigStr = venc.toLocaleDateString('es-CL');
-          await fetch("https://kscspiaozrgocmtyivov.supabase.co/rest/v1/ectop_flayers_prevencion?on_conflict=codigo", {
+          await fetch(SUPA_URL + "/rest/v1/ectop_flayers_prevencion?on_conflict=codigo", {
             method: "POST",
-            headers: {
-              "apikey": "sb_publishable_w7rm1v73bUDZ3FWhNpkkDA_Wc7MJUCD",
-              "Authorization": "Bearer sb_publishable_w7rm1v73bUDZ3FWhNpkkDA_Wc7MJUCD",
-              "Content-Type": "application/json",
-              "Prefer": "resolution=merge-duplicates,return=minimal"
-            },
+            headers: supaHeaders(true),
             body: JSON.stringify([{
               codigo: cod,
+              inst_id: "INST_MOLINA",
               tipo: tipo,
-              doc: rut,
               nombre: nom,
+              doc: rut,
               empresa: emp || planta,
               patente: pat || (tipo === 'VISITA' ? 'PEATON' : ''),
-              patente_carro: '',
-              fecha: fechaStr,
-              hora: horaStr,
-              ts: Date.now(),
+              fecha_entrega: fechaStr,
+              hora_entrega: horaStr,
               vigencia_hasta: vigStr,
               firmado_digitalmente: true,
               firma_tipo: "NOMBRE_Y_RUT",
-              firma_texto: nom + " | RUT: " + rut + " | QR MÓVIL (" + fechaStr + " " + horaStr + ")",
-              entregado_por: "PORTAL QR MÓVIL",
-              inst_id: "inst_principal"
+              firma_texto: nom + " | RUT: " + rut + " | QR MÓVIL (" + fechaStr + " " + horaStr + ")"
             }])
           });
-        } catch(eSupa) { console.warn("Aviso sync Supabase QR:", eSupa); }
+        } catch(eSupa) { console.warn("Aviso sync tabla Prevención Supabase QR:", eSupa); }
 
         // Mostrar pantalla de éxito
         document.getElementById('boxFormularioFirma').classList.add('hidden');
