@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>E&C TOP — Normas Oficiales y Firma Digital de Acceso</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col items-center justify-start p-3 sm:p-5">
+  <div class="max-w-md w-full bg-slate-800 rounded-2xl shadow-2xl border border-slate-700 overflow-hidden space-y-4 p-4 sm:p-6 my-auto">
+    
+    <!-- ENCABEZADO OFICIAL -->
+    <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+      <div class="flex items-center gap-2.5">
+        <div class="bg-indigo-600 text-white font-black text-xs px-2.5 py-1.5 rounded-lg shadow tracking-wider">E&amp;C TOP</div>
+        <div>
+          <h1 class="text-xs font-black text-slate-300 uppercase tracking-wider">ERP Control de Acceso</h1>
+          <p class="text-[10px] text-slate-400 font-bold" id="lblPlanta">Patagoniafresh Molina</p>
+        </div>
+      </div>
+      <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase">12 Meses</span>
+    </div>
+
+    <!-- SELLO DE SERIE Y VIGENCIA -->
+    <div class="bg-gradient-to-r from-purple-900/60 to-indigo-900/60 border border-purple-500/30 p-3 rounded-xl flex items-center justify-between">
+      <div>
+        <span class="text-[9px] font-bold text-purple-300 uppercase tracking-wider">Flayer Individual Asignado:</span>
+        <div id="lblCodigo" class="text-base font-black font-mono text-amber-300 tracking-wider">FNC-2026-02401</div>
+      </div>
+      <div class="text-right">
+        <span class="text-[9px] font-bold text-slate-400 uppercase">Vigencia en Planta:</span>
+        <div class="text-xs font-black text-emerald-400">12 MESES</div>
+      </div>
+    </div>
+
+    <!-- TÍTULO DEL DOCUMENTO -->
+    <div class="text-center pt-1">
+      <h2 id="lblTituloDoc" class="text-sm font-black text-white uppercase tracking-wide">NORMAS GENERALES DE SEGURIDAD INDUSTRIAL</h2>
+      <p class="text-[11px] text-slate-400 mt-1">Lea las normas obligatorias y registre su Nombre y RUT como Firma Digital para habilitar su ingreso:</p>
+    </div>
+
+    <!-- CUERPO DE LAS NORMAS -->
+    <div id="cuerpoNormas" class="space-y-2 text-xs text-slate-200 bg-slate-900/80 p-3.5 rounded-xl border border-slate-700/80 leading-relaxed max-h-48 overflow-y-auto">
+      <!-- Se inyecta dinámicamente -->
+    </div>
+
+    <!-- SECCIÓN FORMULARIO DE FIRMA DIGITAL CON NOMBRE Y RUT (SIN FIRMA CON LA MANO) -->
+    <div id="boxFormularioFirma" class="bg-slate-900/90 border-2 border-indigo-500/50 p-4 rounded-xl space-y-3 shadow-inner">
+      <div class="flex items-center gap-2 border-b border-slate-800 pb-2">
+        <span class="text-xl">✍️</span>
+        <div>
+          <h3 class="text-xs font-black text-amber-300 uppercase">Firma Digital con Nombre y RUT</h3>
+          <p class="text-[10px] text-slate-400">Ingrese su Nombre y RUT como firma digital de conformidad:</p>
+        </div>
+      </div>
+
+      <div class="space-y-2.5 text-xs">
+        <div>
+          <label class="block text-[10px] font-extrabold text-slate-300 uppercase mb-1">Nombre Completo: *</label>
+          <input type="text" id="firmante_nombre" placeholder="EJ: JUAN PÉREZ GONZÁLEZ" class="w-full p-2.5 rounded-lg bg-slate-800 border border-slate-600 text-white font-bold uppercase focus:border-indigo-400 focus:outline-none">
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-[10px] font-extrabold text-slate-300 uppercase mb-1">RUT / Pasaporte: *</label>
+            <input type="text" id="firmante_rut" oninput="formatearRutFirma(this)" placeholder="EJ: 12.345.678-9" class="w-full p-2.5 rounded-lg bg-slate-800 border border-slate-600 text-white font-mono font-bold uppercase focus:border-indigo-400 focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-[10px] font-extrabold text-slate-300 uppercase mb-1">Empresa / A Quién Visita:</label>
+            <input type="text" id="firmante_empresa" placeholder="EMPRESA O ANFITRIÓN" class="w-full p-2.5 rounded-lg bg-slate-800 border border-slate-600 text-white font-bold uppercase focus:border-indigo-400 focus:outline-none">
+          </div>
+        </div>
+
+        <div id="boxPatenteCamion" class="hidden">
+          <label class="block text-[10px] font-extrabold text-slate-300 uppercase mb-1">Patente del Camión:</label>
+          <input type="text" id="firmante_patente" placeholder="EJ: ABCD12" class="w-full p-2.5 rounded-lg bg-slate-800 border border-slate-600 text-white font-mono font-bold uppercase focus:border-indigo-400 focus:outline-none">
+        </div>
+
+        <!-- DECLARACIÓN DE FIRMA DIGITAL -->
+        <label class="flex items-start gap-2 bg-slate-800/80 p-2.5 rounded-lg border border-slate-700 cursor-pointer">
+          <input type="checkbox" id="chkDeclaracionFirma" checked class="w-4 h-4 mt-0.5 accent-emerald-500">
+          <span class="text-[10px] text-slate-300 font-semibold leading-tight">
+            Declaro bajo juramento que los datos ingresados corresponden a mi identidad y que mi <b>Nombre y RUT</b> constituyen mi <b>Firma Digital Oficial</b> de recepción y conformidad con las Normas de Seguridad Industrial (Vigencia 12 meses).
+          </span>
+        </label>
+      </div>
+
+      <!-- BOTÓN DE CONFIRMACIÓN FINAL -->
+      <button onclick="enviarFirmaDigital()" id="btnAceptar" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-3 px-4 rounded-xl font-black text-xs uppercase shadow-lg transition tracking-wider flex items-center justify-center gap-2 mt-2">
+        <span>✍️ REGISTRAR FIRMA DIGITAL CON MI NOMBRE Y RUT</span>
+      </button>
+    </div>
+
+    <!-- BANNER DE ÉXITO TRAS FIRMAR -->
+    <div id="bannerExitoFinal" class="hidden bg-emerald-600 text-white p-4 rounded-xl shadow-lg space-y-2 text-center animate-fade-in">
+      <div class="text-3xl">🎉</div>
+      <div class="font-black text-sm uppercase tracking-wide">¡Firma Digital Registrada con Éxito!</div>
+      <p class="text-xs text-emerald-100 leading-snug">
+        Estimado(a) <b id="resumenNombre" class="text-white"></b> (RUT: <span id="resumenRut" class="font-mono text-amber-200"></span>):<br>
+        Su <b>Firma Digital (Nombre y RUT)</b> para el Flayer <span id="resumenCod" class="font-mono font-bold text-white"></span> ha sido transmitida al <b>Departamento de Prevención de Riesgos</b> y a la <b>Portería</b>.<br>
+        <b>Ya puede proceder con su ingreso a la planta.</b>
+      </p>
+      <div class="bg-emerald-800/80 p-2 rounded-lg text-[10px] font-bold text-emerald-200">
+        Vigencia registrada en Prevención de Riesgos: 12 meses
+      </div>
+    </div>
+
+    <div class="text-center text-[10px] text-slate-500 font-medium">
+      E&amp;C TOP SpA — Sistema de Control de Acceso Industrial Certificado.
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const tipo = (params.get('tipo') || 'VISITA').toUpperCase();
+    const cod = params.get('cod') || ('FNV-' + new Date().getFullYear() + '-00001');
+    const planta = params.get('planta') || 'PATAGONIAFRESH MOLINA';
+
+    document.getElementById('lblCodigo').innerText = cod;
+    document.getElementById('lblPlanta').innerText = planta;
+
+    const lblTit = document.getElementById('lblTituloDoc');
+    const cuerpo = document.getElementById('cuerpoNormas');
+
+    if(tipo === 'CONDUCTOR'){
+      lblTit.innerText = "🚛 NORMAS DE CONDUCCIÓN SEGURA Y TRÁNSITO INTERNO (CAMIONES)";
+      document.getElementById('boxPatenteCamion').classList.remove('hidden');
+      cuerpo.innerHTML = `
+        <div class="font-bold space-y-2">
+          <div class="p-2 bg-slate-800/90 rounded border border-slate-700"><b>1. Velocidad Máxima 20 km/h:</b> Velocidad restringida en toda la planta. En cruces peatonales y romana reducir a 10 km/h.</div>
+          <div class="p-2 bg-slate-800/90 rounded border border-slate-700"><b>2. EPP Obligatorio al Descender:</b> Casco de seguridad, calzado con puntera de acero y chaleco reflectante fuera de la cabina.</div>
+          <div class="p-2 bg-slate-800/90 rounded border border-slate-700"><b>3. Encarpado y Descarpado Seguro:</b> Prohibido encarpado en zonas no autorizadas. Use exclusivamente plataformas con arnés.</div>
+          <div class="p-2 bg-slate-800/90 rounded border border-slate-700"><b>4. Prohibición de Pernoctar:</b> No pernoctar dentro del camión en patios operativos o zonas de maniobra.</div>
+          <div class="p-2 bg-slate-800/90 rounded border border-slate-700"><b>5. Protocolo en Romana:</b> Ingrese a baja velocidad, detenga el motor y permanezca en cabina hasta recibir orden del operador.</div>
+          <div class="p-2 bg-slate-800/90 rounded border border-slate-700"><b>6. Cero Alcohol y Prohibido Fumar:</b> Cero tolerancia a alcohol/drogas. Prohibido fumar fuera de los puntos autorizados.</div>
+        </div>
+      `;
+    } else {
+      lblTit.innerText = "📘 NORMAS GENERALES DE SEGURIDAD PARA VISITAS";
+      cuerpo.innerHTML = `
+        <div class="font-bold space-y-2">
+          <div class="p-2 bg-slate-800/90 rounded border border-slate-700"><b>1. EPP Obligatorio:</b> Casco, calzado de seguridad, chaleco reflectante y lentes de protección en áreas operativas e industriales.</div>
+          <div class="p-2 bg-slate-800/90 rounded border border-slate-700"><b>2. Pasos Peatonales Exclusivos:</b> Desplácese únicamente por las sendas demarcadas en color amarillo. No cruce patios de maniobra.</div>
+          <div class="p-2 bg-slate-800/90 rounded border border-slate-700"><b>3. Acompañamiento Permanente:</b> Permanezca siempre acompañado por su anfitrión o personal autorizado de la planta.</div>
+          <div class="p-2 bg-slate-800/90 rounded border border-slate-700"><b>4. Prohibido Fumar y Uso de Celulares:</b> Prohibido fumar. Uso de teléfonos restringido mientras camina por zonas operativas.</div>
+          <div class="p-2 bg-slate-800/90 rounded border border-slate-700"><b>5. Emergencias:</b> Ante una alarma sonora continua, mantenga la calma y diríjase a la Zona de Seguridad (ZS) más cercana.</div>
+          <div class="p-2 bg-slate-800/90 rounded border border-slate-700"><b>6. Registro de Salida:</b> Registre obligatoriamente su salida en portería y devuelva su credencial de visita.</div>
+        </div>
+      `;
+    }
+
+    function formatearRutFirma(el){
+      let v = el.value.replace(/[^0-9kK]/g, '').toUpperCase();
+      if(v.length > 9) v = v.substring(0, 9);
+      if(v.length > 1){
+        const cuerpo = v.slice(0, -1);
+        const dv = v.slice(-1);
+        el.value = cuerpo.replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "-" + dv;
+      } else {
+        el.value = v;
+      }
+    }
+
+    // REGISTRAR EN FIREBASE EN TIEMPO REAL EL ESCANEO INICIAL
+    async function reportarEscaneoInicial(){
+      try{
+        const urlScan = "https://control-de-acceso-ectop-default-rtdb.firebaseio.com/ectop_qr_scans/" + encodeURIComponent(cod) + ".json";
+        await fetch(urlScan, {
+          method: "PATCH",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({
+            scanned: true,
+            timestamp: Date.now(),
+            tipo: tipo,
+            codigo: cod,
+            planta: planta
+          })
+        });
+      }catch(e){}
+    }
+    reportarEscaneoInicial();
+
+    // ENVIAR FIRMA DIGITAL CON NOMBRE Y RUT A FIREBASE
+    async function enviarFirmaDigital(){
+      const nom = (document.getElementById('firmante_nombre').value || '').trim().toUpperCase();
+      const rut = (document.getElementById('firmante_rut').value || '').trim().toUpperCase();
+      const emp = (document.getElementById('firmante_empresa').value || '').trim().toUpperCase();
+      const pat = (document.getElementById('firmante_patente').value || '').trim().toUpperCase();
+      const chk = document.getElementById('chkDeclaracionFirma');
+
+      if(!nom || nom.length < 3){
+        alert("Por favor ingrese su Nombre Completo para firmar.");
+        document.getElementById('firmante_nombre').focus();
+        return;
+      }
+      if(!rut || rut.length < 7){
+        alert("Por favor ingrese un RUT o Pasaporte válido.");
+        document.getElementById('firmante_rut').focus();
+        return;
+      }
+      if(chk && !chk.checked){
+        alert("Debe aceptar la declaración de conformidad para continuar.");
+        return;
+      }
+
+      const btn = document.getElementById('btnAceptar');
+      btn.disabled = true;
+      btn.innerText = "⏳ TRANSMITIENDO FIRMA A PREVENCIÓN Y PORTERÍA...";
+      btn.className = "w-full bg-slate-700 text-slate-300 py-3 px-4 rounded-xl font-black text-xs uppercase cursor-not-allowed";
+
+      try{
+        const urlScan = "https://control-de-acceso-ectop-default-rtdb.firebaseio.com/ectop_qr_scans/" + encodeURIComponent(cod) + ".json";
+        const payload = {
+          scanned: true,
+          signed: true,
+          firmaTipo: "NOMBRE_Y_RUT",
+          codigo: cod,
+          tipo: tipo,
+          nombre: nom,
+          rut: rut,
+          empresa: emp,
+          patente: pat,
+          planta: planta,
+          timestamp: Date.now()
+        };
+
+        await fetch(urlScan, {
+          method: "PUT",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(payload)
+        });
+
+        // Sincronizar también en directo con Supabase PostgreSQL (tabla ectop_flayers_prevencion)
+        try {
+          const ahora = new Date();
+          const fechaStr = ahora.toLocaleDateString('es-CL');
+          const horaStr = ahora.toLocaleTimeString('es-CL', {hour:'2-digit', minute:'2-digit'});
+          const venc = new Date(ahora);
+          venc.setFullYear(venc.getFullYear() + 1);
+          const vigStr = venc.toLocaleDateString('es-CL');
+          await fetch("https://kscspiaozrgocmtyivov.supabase.co/rest/v1/ectop_flayers_prevencion?on_conflict=codigo", {
+            method: "POST",
+            headers: {
+              "apikey": "sb_publishable_w7rm1v73bUDZ3FWhNpkkDA_Wc7MJUCD",
+              "Authorization": "Bearer sb_publishable_w7rm1v73bUDZ3FWhNpkkDA_Wc7MJUCD",
+              "Content-Type": "application/json",
+              "Prefer": "resolution=merge-duplicates,return=minimal"
+            },
+            body: JSON.stringify([{
+              codigo: cod,
+              tipo: tipo,
+              doc: rut,
+              nombre: nom,
+              empresa: emp || planta,
+              patente: pat || (tipo === 'VISITA' ? 'PEATON' : ''),
+              patente_carro: '',
+              fecha: fechaStr,
+              hora: horaStr,
+              ts: Date.now(),
+              vigencia_hasta: vigStr,
+              firmado_digitalmente: true,
+              firma_tipo: "NOMBRE_Y_RUT",
+              firma_texto: nom + " | RUT: " + rut + " | QR MÓVIL (" + fechaStr + " " + horaStr + ")",
+              entregado_por: "PORTAL QR MÓVIL",
+              inst_id: "inst_principal"
+            }])
+          });
+        } catch(eSupa) { console.warn("Aviso sync Supabase QR:", eSupa); }
+
+        // Mostrar pantalla de éxito
+        document.getElementById('boxFormularioFirma').classList.add('hidden');
+        document.getElementById('resumenNombre').innerText = nom;
+        document.getElementById('resumenRut').innerText = rut;
+        document.getElementById('resumenCod').innerText = cod;
+        document.getElementById('bannerExitoFinal').classList.remove('hidden');
+
+      }catch(err){
+        console.error("Error enviando firma:", err);
+        alert("Ocurrió un inconveniente al transmitir su firma. Por favor verifique su conexión a internet e intente nuevamente.");
+        btn.disabled = false;
+        btn.innerText = "✍️ REINTENTAR ENVIAR FIRMA";
+        btn.className = "w-full bg-emerald-600 hover:bg-emerald-500 text-white py-3 px-4 rounded-xl font-black text-xs uppercase shadow-lg";
+      }
+    }
+  </script>
+</body>
+</html>

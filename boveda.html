@@ -1,0 +1,1811 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#020617">
+  <title>👑 Consola Maestra E&amp;C TOP — Bóveda, Empresas y Gerencia</title>
+  <link rel="icon" type="image/png" href="Logo_Boveda_ECTOP_192.png">
+  <link rel="apple-touch-icon" href="Logo_Boveda_ECTOP_192.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: radial-gradient(circle at top, #0f172a 0%, #020617 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid rgba(51, 65, 85, 0.85);
+      backdrop-filter: blur(12px);
+    }
+    .tab-btn-active {
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      color: #020617;
+      border-color: #fbbf24;
+    }
+    .tab-btn-idle {
+      background: rgba(15, 23, 42, 0.85);
+      color: #cbd5e1;
+      border-color: #334155;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-white p-3 md:p-6">
+  <div class="max-w-5xl mx-auto">
+    <!-- HEADER -->
+    <div class="glass-card rounded-3xl p-4 md:p-5 mb-4 flex flex-wrap items-center justify-between gap-3 border-amber-500/30 shadow-2xl">
+      <div class="flex items-center gap-3">
+        <img src="Logo_Boveda_ECTOP_192.png" alt="Bóveda Gerencial E&amp;C TOP" class="w-12 h-12 rounded-2xl border-2 border-amber-400/80 shadow-lg shadow-amber-500/20 bg-slate-950 object-cover">
+        <div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="px-2 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/40 text-amber-300 text-[10px] font-black uppercase tracking-wider">👑 PROPIETARIO EDUARDO MARTÍNEZ</span>
+            <span class="px-2 py-0.5 rounded-full bg-indigo-500/15 border border-indigo-400/40 text-indigo-200 text-[10px] font-black">v1.5 • BIOMETRÍA / PIN</span>
+            <span id="badgeEstadoNube" class="px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 text-[10px] font-bold">☁️ Nube Privada E&amp;C TOP Cloud</span>
+          </div>
+          <h1 class="text-base md:text-xl font-black text-white mt-0.5">Bóveda Central • Empresas, Seguridad &amp; Gerencia</h1>
+          <p class="text-[11px] text-slate-400">Control global Web + .EXE + APKs (Acceso ERP &amp; Logística de Camiones)</p>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <a id="btnVolverPortalWeb" href="index.html" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 border border-slate-700">← Portal Web</a>
+        <a id="btnDescargarApkBoveda" href="Admin_Boveda_ECTOP.apk" download class="px-3 py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/35 text-xs font-black text-emerald-300 border border-emerald-500/40">📲 APK Celular</a>
+        <button id="btnActivarBioWebHeader" onclick="activarBiometriaWebDesdePanel()" class="hidden px-3 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/35 text-xs font-black text-amber-300 border border-amber-400/50">🪪 Activar Huella / PIN</button>
+        <button id="btnSincronizarTop" onclick="cargarDatosBovedaNube(true)" class="hidden px-3 py-2 rounded-xl bg-sky-600/25 hover:bg-sky-600/40 text-xs font-black text-sky-300 border border-sky-500/40">🔄 Sincronizar</button>
+        <button id="btnBloquearSesion" onclick="cerrarSesionDueno()" class="hidden px-3 py-2 rounded-xl bg-rose-600/25 hover:bg-rose-600/40 text-xs font-black text-rose-300 border border-rose-500/40">🔒 Bloquear</button>
+      </div>
+    </div>
+
+    <!-- LOGIN PROPIETARIO -->
+    <div id="pantallaLoginDueno" class="max-w-md mx-auto glass-card rounded-3xl p-6 md:p-7 border-amber-500/40 shadow-2xl text-center mt-6">
+      <img src="Logo_Boveda_ECTOP_192.png" alt="Bóveda Gerencial E&amp;C TOP" class="w-24 h-24 mx-auto mb-3 rounded-2xl border-2 border-amber-400/80 shadow-2xl shadow-amber-500/20 bg-slate-950 object-cover">
+      <h2 class="text-lg font-black text-white">Acceso Exclusivo de Propietario</h2>
+      <p class="text-xs text-slate-400 mt-1 mb-3">Administra claves de bóveda, empresas clientes, empresas de seguridad multi-instalación y accesos de gerencia para ambas aplicaciones.</p>
+
+      <div id="badgeSeguridadBioStatus" class="hidden inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950/90 border border-amber-500/35 text-[11px] font-bold text-amber-300 mb-4"></div>
+
+      <!-- DESBLOQUEO RÁPIDO CON BIOMETRÍA / PIN (SI EL EQUIPO TIENE SEGURIDAD ACTIVADA) -->
+      <div id="boxUnlockBiometria" class="hidden space-y-3 text-center mt-1 mb-2">
+        <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-amber-500/30 text-left space-y-1">
+          <div class="text-xs font-black text-amber-300 flex items-center gap-1.5">
+            <span>🛡️ Bóveda Gerencial Protegida</span>
+          </div>
+          <p id="txtDescBioUnlock" class="text-[11px] text-slate-300 leading-relaxed">
+            La clave maestra ya fue validada en este dispositivo. Verifica tu identidad con biometría o PIN del celular para entrar.
+          </p>
+        </div>
+
+        <div id="errBioDueno" class="hidden text-xs font-bold text-rose-400 bg-rose-950/60 border border-rose-500/40 rounded-xl p-2.5 text-center"></div>
+
+        <button id="btnDesbloquearBio" type="button" onclick="desbloquearConBiometriaOPin()"
+          class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg transition">
+          🪪 Desbloquear con Biometría / PIN
+        </button>
+
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <button type="button" onclick="mostrarFormularioClaveMaestra()" class="py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[11px] font-bold text-slate-200">
+            🔑 Usar Clave Maestra
+          </button>
+          <button type="button" onclick="olvidarDispositivoBoveda()" class="py-2 px-3 rounded-xl bg-rose-950/50 hover:bg-rose-900/60 border border-rose-500/30 text-[11px] font-bold text-rose-300">
+            🧹 Olvidar Equipo
+          </button>
+        </div>
+      </div>
+
+      <form id="formMasterPassDueno" onsubmit="iniciarSesionDueno(event)" class="space-y-3 text-left">
+        <div>
+          <label class="block text-[11px] font-bold uppercase text-amber-300 mb-1">🔑 Clave Maestra de Eduardo Martínez:</label>
+          <input id="inpMasterPass" type="password" required autofocus placeholder="Ingrese su clave maestra..."
+            class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white font-bold text-sm focus:outline-none focus:border-amber-400">
+        </div>
+        <label id="wrapChkRecordarDueno" class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 cursor-pointer">
+          <input id="chkRecordarDueno" type="checkbox" checked class="w-4 h-4 accent-amber-500 shrink-0">
+          <span id="lblRecordarDuenoTxt" class="text-[11px] text-slate-300 font-semibold leading-tight">Habilitar desbloqueo con Biometría o PIN del celular tras ingresar esta clave (si está activado)</span>
+        </label>
+        <div id="errLoginDueno" class="hidden text-xs font-bold text-rose-400 bg-rose-950/60 border border-rose-500/40 rounded-xl p-2.5 text-center"></div>
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg">
+          🔓 Entrar al Panel Maestro
+        </button>
+        <button id="btnVolverABiometria" type="button" onclick="volverAVistaBiometria()" class="hidden w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-amber-500/30 text-amber-300 font-bold text-xs">
+          ← Volver a Biometría / PIN del dispositivo
+        </button>
+      </form>
+    </div>
+
+    <!-- PANEL CONSOLA PROPIETARIO -->
+    <div id="panelConsolaDueno" class="hidden space-y-4">
+      <!-- KPI STRIP -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="glass-card rounded-2xl p-3.5 border-amber-500/30">
+          <div class="text-[10px] font-black uppercase text-amber-400">🏢 Empresas Clientes</div>
+          <div class="flex items-baseline justify-between mt-1">
+            <span id="kpiClientesActivos" class="text-2xl font-black text-white">0</span>
+            <span id="kpiClientesTotal" class="text-[11px] text-slate-400 font-bold">0 registradas</span>
+          </div>
+        </div>
+        <div class="glass-card rounded-2xl p-3.5 border-cyan-500/30">
+          <div class="text-[10px] font-black uppercase text-cyan-400">🛡️ Empresas de Seguridad</div>
+          <div class="flex items-baseline justify-between mt-1">
+            <span id="kpiSeguridadActivas" class="text-2xl font-black text-white">0</span>
+            <span id="kpiSeguridadInsts" class="text-[11px] text-cyan-300 font-bold">0 instalaciones</span>
+          </div>
+        </div>
+        <div class="glass-card rounded-2xl p-3.5 border-emerald-500/30">
+          <div class="text-[10px] font-black uppercase text-emerald-400">🔑 Master y Gerencia</div>
+          <div class="flex items-baseline justify-between mt-1">
+            <span id="kpiGerenciaActivos" class="text-2xl font-black text-white">0</span>
+            <span id="kpiGerenciaTotal" class="text-[11px] text-slate-400 font-bold">0 cuentas web/app</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- NAVEGACIÓN DE 3 MÓDULOS -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <button id="tabBtnClientes" onclick="cambiarTabBoveda('clientes')" class="tab-btn-active py-3 px-4 rounded-2xl border font-black text-xs uppercase tracking-wide flex items-center justify-center gap-2 transition">
+          <span>🏢</span><span>1. Empresas Clientes</span>
+        </button>
+        <button id="tabBtnSeguridad" onclick="cambiarTabBoveda('seguridad')" class="tab-btn-idle py-3 px-4 rounded-2xl border font-black text-xs uppercase tracking-wide flex items-center justify-center gap-2 transition">
+          <span>🛡️</span><span>2. Empresas de Seguridad</span>
+        </button>
+        <button id="tabBtnGerencia" onclick="cambiarTabBoveda('gerencia')" class="tab-btn-idle py-3 px-4 rounded-2xl border font-black text-xs uppercase tracking-wide flex items-center justify-center gap-2 transition">
+          <span>🔑</span><span>3. Master y Gerencia</span>
+        </button>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- TAB 1: EMPRESAS CLIENTES                                  -->
+      <!-- ========================================================= -->
+      <div id="tabClientes" class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <div class="lg:col-span-5 glass-card rounded-3xl p-5 border-amber-500/30 h-fit">
+          <div class="flex items-center justify-between mb-3">
+            <h3 id="tituloFormCliente" class="text-sm font-black text-amber-400 uppercase">➕ Nueva Empresa Cliente</h3>
+            <button id="btnCancelarEditCliente" type="button" onclick="cancelarEdicionCliente()" class="hidden text-[11px] text-slate-400 hover:text-white underline">Cancelar edición</button>
+          </div>
+          <form onsubmit="guardarEmpresaCliente(event)" class="space-y-3">
+            <input type="hidden" id="cliEditIdx" value="-1">
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Nombre Empresa Cliente</label>
+              <input id="cliNombre" type="text" required placeholder="Ej: PATAGONIAFRESH" class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs font-bold uppercase text-white focus:outline-none focus:border-amber-400">
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">RUT Empresa (Opc.)</label>
+                <input id="cliRut" type="text" placeholder="Ej: 96.123.456-7" class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs font-bold uppercase text-white">
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">🔑 Clave de Bóveda</label>
+                <input id="cliClave" type="text" required placeholder="Ej: Patagonia2026" class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-amber-500/50 text-xs font-bold text-amber-300">
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">WhatsApp Contacto</label>
+                <input id="cliWa" type="text" placeholder="+569..." class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs font-bold text-white">
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Vencimiento Plan</label>
+                <input id="cliVence" type="date" class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs font-bold text-white">
+              </div>
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Apps Contratadas</label>
+              <select id="cliModulos" class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs font-bold text-white">
+                <option value="AMBOS">Ambas Suites (Control de Acceso + Logística Camiones)</option>
+                <option value="ACCESO">Solo Control de Acceso ERP</option>
+                <option value="LOGISTICA">Solo Logística de Camiones</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Instalaciones / Plantas y Porterías</label>
+              <div class="space-y-1.5 mb-2">
+                <div class="flex gap-1.5">
+                  <input id="cliNuevaInstNombre" type="text" placeholder="Ej: PATAGONIA - PLANTA CENTRAL" class="flex-1 px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs font-bold uppercase text-white">
+                  <button type="button" onclick="agregarInstTempCliente()" class="px-3 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/35 border border-amber-500/40 text-amber-300 text-xs font-black">➕ Añadir</button>
+                </div>
+                <input id="cliNuevaInstPorterias" type="text" placeholder="Porterías sep. por coma (Opcional, defecto: PRINCIPAL, PULPA)" class="w-full px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-[11px] font-bold uppercase text-slate-300">
+              </div>
+              <div id="cliInstChips" class="flex flex-wrap gap-1.5 text-[11px] min-h-[28px] p-2 rounded-xl bg-slate-950/60 border border-slate-800"></div>
+            </div>
+            <button id="btnGuardarCliente" type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-black text-xs uppercase shadow-lg">
+              💾 Guardar Empresa en Nube Privada
+            </button>
+          </form>
+        </div>
+
+        <div class="lg:col-span-7 glass-card rounded-3xl p-5 border-slate-700 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h3 class="text-sm font-black text-white uppercase">🏢 Empresas Clientes Activas y Licencias</h3>
+              <p class="text-[11px] text-slate-400">Haga clic en cada instalación para activarla o suspenderla individualmente.</p>
+            </div>
+            <input id="busqClientes" oninput="renderListaClientes()" placeholder="Buscar empresa..." class="px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-700 text-xs font-bold uppercase text-white w-44">
+          </div>
+          <div id="listaClientesBox" class="space-y-2.5 max-h-[640px] overflow-y-auto pr-1"></div>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- TAB 2: EMPRESAS DE SEGURIDAD (MULTI-INSTALACIÓN)          -->
+      <!-- ========================================================= -->
+      <div id="tabSeguridad" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <div class="lg:col-span-5 glass-card rounded-3xl p-5 border-cyan-500/30 h-fit">
+          <div class="flex items-center justify-between mb-3">
+            <h3 id="tituloFormSeguridad" class="text-sm font-black text-cyan-400 uppercase">🛡️ Empresa de Seguridad Multi-Instalación</h3>
+            <button id="btnCancelarEditSeguridad" type="button" onclick="cancelarEdicionSeguridad()" class="hidden text-[11px] text-slate-400 hover:text-white underline">Cancelar edición</button>
+          </div>
+          <form onsubmit="guardarEmpresaSeguridad(event)" class="space-y-3">
+            <input type="hidden" id="segEditIdx" value="-1">
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Nombre Empresa de Seguridad</label>
+              <input id="segNombre" type="text" required placeholder="Ej: TRANSCOM LTDA." class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs font-bold uppercase text-white focus:outline-none focus:border-cyan-400">
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">RUT (Opcional)</label>
+                <input id="segRut" type="text" placeholder="Ej: 76.543.210-K" class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs font-bold uppercase text-white">
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">🔑 Clave Única Bóveda</label>
+                <input id="segClave" type="text" required placeholder="Ej: Transcom2026" class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-cyan-500/50 text-xs font-bold text-cyan-300">
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">WhatsApp Gerencia Seguridad</label>
+                <input id="segWa" type="text" placeholder="+569..." class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs font-bold text-white">
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Vencimiento Contrato</label>
+                <input id="segVence" type="date" class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs font-bold text-white">
+              </div>
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Aplicaciones Habilitadas</label>
+              <select id="segModulos" class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs font-bold text-white">
+                <option value="AMBOS">Ambas Apps (Control de Acceso + Logística Camiones)</option>
+                <option value="ACCESO">Solo Control de Acceso</option>
+                <option value="LOGISTICA">Solo Logística Camiones</option>
+              </select>
+            </div>
+
+            <!-- INSTALACIONES DONDE PRESTA SERVICIO ESTA EMPRESA DE SEGURIDAD -->
+            <div class="p-3 rounded-2xl bg-slate-950/75 border border-cyan-500/30 space-y-2">
+              <div class="text-[11px] font-black text-cyan-300 uppercase">📍 Instalaciones Bajo Custodia (Multi-Planta)</div>
+              <div class="text-[10px] text-slate-400">Agregue todas las instalaciones donde operan guardias y gerencia de esta empresa de seguridad:</div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                <input id="segInstPlanta" type="text" placeholder="Nombre Planta / Instalación (Ej: Patagoniafresh Molina)" class="px-2.5 py-2 rounded-lg bg-slate-900 border border-slate-700 text-[11px] font-bold uppercase text-white">
+                <input id="segInstCliente" type="text" placeholder="Empresa Mandante (Ej: PATAGONIAFRESH)" class="px-2.5 py-2 rounded-lg bg-slate-900 border border-slate-700 text-[11px] font-bold uppercase text-white">
+              </div>
+              <div class="flex gap-1.5">
+                <input id="segInstPorterias" type="text" placeholder="Porterías (Ej: PRINCIPAL, PULPA)" class="flex-1 px-2.5 py-2 rounded-lg bg-slate-900 border border-slate-700 text-[11px] font-bold uppercase text-white">
+                <button type="button" onclick="agregarInstTempSeguridad()" class="px-3 py-2 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/35 border border-cyan-500/40 text-cyan-300 text-[11px] font-black">➕ Sumar Sede</button>
+              </div>
+              <div id="segCatalogoQuick" class="flex flex-wrap gap-1 pt-1"></div>
+              <div id="segInstChips" class="space-y-1.5 max-h-40 overflow-y-auto pt-1"></div>
+            </div>
+
+            <button id="btnGuardarSeguridad" type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs uppercase shadow-lg">
+              💾 Guardar Empresa de Seguridad
+            </button>
+          </form>
+        </div>
+
+        <div class="lg:col-span-7 glass-card rounded-3xl p-5 border-slate-700 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h3 class="text-sm font-black text-cyan-300 uppercase">🛡️ Empresas de Seguridad y sus Instalaciones</h3>
+              <p class="text-[11px] text-slate-400">Suspenda o reactive toda la empresa de seguridad o una instalación específica con un clic.</p>
+            </div>
+            <input id="busqSeguridad" oninput="renderListaSeguridad()" placeholder="Buscar seguridad..." class="px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-700 text-xs font-bold uppercase text-white w-44">
+          </div>
+          <div id="listaSeguridadBox" class="space-y-2.5 max-h-[640px] overflow-y-auto pr-1"></div>
+        </div>
+      </div>
+
+      <!-- ========================================================= -->
+      <!-- TAB 3: USUARIOS MASTER Y GERENCIA (AMBAS APPS)            -->
+      <!-- ========================================================= -->
+      <div id="tabGerencia" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <div class="lg:col-span-5 glass-card rounded-3xl p-5 border-emerald-500/30 h-fit">
+          <div class="flex items-center justify-between mb-3">
+            <h3 id="tituloFormGerencia" class="text-sm font-black text-emerald-400 uppercase">🔑 Nuevo Usuario Master / Gerencia</h3>
+            <button id="btnCancelarEditGerencia" type="button" onclick="cancelarEdicionGerencia()" class="hidden text-[11px] text-slate-400 hover:text-white underline">Cancelar edición</button>
+          </div>
+          <form onsubmit="guardarUsuarioGerencia(event)" class="space-y-3">
+            <input type="hidden" id="gerEditIdx" value="-1">
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-amber-300 mb-1">🛡️ Nivel de Autoridad de la Cuenta</label>
+              <select id="gerRolCuenta" onchange="actualizarInfoRolCuentaGerencia()" class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-amber-500/50 text-xs font-black text-white">
+                <option value="MASTER">🔑 MASTER DE INSTALACIÓN (Crea usuarios y gestiona su sede)</option>
+                <option value="GERENCIA">👔 GERENCIA CORPORATIVA (Solo Lectura + Históricos)</option>
+              </select>
+              <div id="boxInfoRolCuentaGerencia" class="mt-1.5 p-2 rounded-xl bg-amber-500/10 border border-amber-500/30 text-[10px] font-semibold text-amber-200 leading-snug">
+                🔑 <b>Master de Instalación:</b> Puede iniciar sesión solo en las instalaciones asignadas abajo, crear/editar usuarios operativos (Guardias, RRHH, Romana, etc.) y configurar su sede. No ve licencias ni otras empresas.
+              </div>
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Nombre Completo del Responsable</label>
+              <input id="gerNombre" type="text" required placeholder="Ej: MASTER PLANTA PATAGONIA / GERENTE SUR" class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs font-bold uppercase text-white focus:outline-none focus:border-emerald-400">
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Usuario Login</label>
+                <input id="gerUser" type="text" required autocapitalize="none" placeholder="Ej: master.patagonia" class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs font-bold lowercase text-white">
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">🔑 Contraseña Acceso</label>
+                <input id="gerPass" type="text" required placeholder="Ej: Patagonia2026" class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-emerald-500/50 text-xs font-bold text-emerald-300">
+              </div>
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">WhatsApp Directo (Para envío de acceso)</label>
+              <input id="gerWa" type="text" placeholder="+569..." class="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs font-bold text-white">
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Pertenece a:</label>
+                <select id="gerTipoEntidad" onchange="poblarSelectEntidadesGerencia(); renderCheckboxesInstGerencia();" class="w-full px-2.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs font-bold text-white">
+                  <option value="EMPRESA_SEGURIDAD">🛡️ Empresa Seguridad</option>
+                  <option value="EMPRESA_CLIENTE">🏢 Empresa Cliente</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Empresa Asignada:</label>
+                <select id="gerEntidadId" onchange="renderCheckboxesInstGerencia()" class="w-full px-2.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs font-bold text-white"></select>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-2xl bg-slate-950/75 border border-emerald-500/30 space-y-2">
+              <div class="text-[11px] font-black text-emerald-300 uppercase">📱 Aplicaciones Autorizadas (Web / .EXE / APK)</div>
+              <div class="grid grid-cols-2 gap-2 text-xs">
+                <label class="flex items-center gap-2 p-2 rounded-xl bg-slate-900 border border-slate-700 cursor-pointer">
+                  <input id="chkAppAcceso" type="checkbox" checked class="w-4 h-4 accent-amber-500">
+                  <span class="font-bold">🛡️ Control de Acceso</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 rounded-xl bg-slate-900 border border-slate-700 cursor-pointer">
+                  <input id="chkAppLogistica" type="checkbox" checked class="w-4 h-4 accent-cyan-500">
+                  <span class="font-bold">🚛 Logística Camiones</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-2xl bg-slate-950/75 border border-slate-800 space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-black text-slate-200 uppercase">🏭 Instalaciones Asignadas a este Usuario:</span>
+                <label class="flex items-center gap-1 text-[10px] font-black text-emerald-400 cursor-pointer">
+                  <input id="chkGerTodasInst" type="checkbox" checked onchange="toggleTodasInstGerencia()" class="accent-emerald-500"> TODAS LAS DE ESTA EMPRESA
+                </label>
+              </div>
+              <div id="gerInstCheckboxes" class="space-y-1 max-h-36 overflow-y-auto pt-1 text-xs"></div>
+            </div>
+
+            <button id="btnGuardarGerencia" type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-black text-xs uppercase shadow-lg">
+              💾 Crear / Sincronizar Usuario en Apps Autorizadas
+            </button>
+          </form>
+        </div>
+
+        <div class="lg:col-span-7 glass-card rounded-3xl p-5 border-slate-700 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h3 class="text-sm font-black text-emerald-300 uppercase">🔑 Usuarios Master y Gerencia Sincronizados en Vivo</h3>
+              <p class="text-[11px] text-slate-400">Cada cuenta opera exclusivamente en sus instalaciones asignadas y aplicaciones habilitadas.</p>
+            </div>
+            <input id="busqGerencia" oninput="renderListaGerencia()" placeholder="Buscar master o gerente..." class="px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-700 text-xs font-bold uppercase text-white w-48">
+          </div>
+          <div id="listaGerenciaBox" class="space-y-2.5 max-h-[640px] overflow-y-auto pr-1"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center text-[11px] text-slate-500 mt-6 pb-4">
+      © 2026 E&amp;C TOP — Propiedad Intelectual Exclusiva de <b class="text-slate-300">Eduardo Martínez Venegas</b> • Tel: +56 9 5350 7453
+    </div>
+  </div>
+
+  <script>
+    const SUPA_URL = "https://kscspiaozrgocmtyivov.supabase.co";
+    const SUPA_KEY = "sb_publishable_w7rm1v73bUDZ3FWhNpkkDA_Wc7MJUCD";
+    const ROOM_ID = "boveda_licencias_empresas";
+    const OWNER_HASH = "ae8db5e2c446ab55dfe6fd8a1c24666fab9234445f635557e9e1f31da98a10b0"; // sha256("ECTOP_HASH_V1|Eduardo2026")
+    const STORAGE_MASTER = "ectop_boveda_admin_master_v2";
+    const STORAGE_BIO_APK = "ectop_boveda_bio_apk_v1";
+    const STORAGE_WEBAUTHN_CRED = "ectop_boveda_webauthn_cred_v1";
+
+    let claveMaestra = "";
+    let bioAuthPendienteResolver = null;
+    let bioAuthEnCurso = false;
+    let segWebAuthnCache = null;
+    let stateBoveda = {
+      licencias: [],
+      empresasSeguridad: [],
+      usuariosGerencia: [],
+      updatedAt: 0
+    };
+    let instTempCliente = [];
+    let instTempSeguridad = [];
+
+    // Pure-JS SHA-256 (100% compatible con WebView Android file:// y navegadores)
+    const SHA256_K = [
+      0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+      0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+      0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+      0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+      0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+      0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+      0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+      0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
+    ];
+
+    async function sha256Hex(str) {
+      const bytes = Array.from(new TextEncoder().encode(String(str)));
+      const bitLen = bytes.length * 8;
+      bytes.push(0x80);
+      while ((bytes.length % 64) !== 56) bytes.push(0);
+      const hi = Math.floor(bitLen / 0x100000000), lo = bitLen >>> 0;
+      bytes.push((hi >>> 24) & 255, (hi >>> 16) & 255, (hi >>> 8) & 255, hi & 255);
+      bytes.push((lo >>> 24) & 255, (lo >>> 16) & 255, (lo >>> 8) & 255, lo & 255);
+      const H = [0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+      const w = new Array(64);
+      for (let i = 0; i < bytes.length; i += 64) {
+        for (let j = 0; j < 16; j++) {
+          const p = i + j * 4;
+          w[j] = ((bytes[p] << 24) | (bytes[p + 1] << 16) | (bytes[p + 2] << 8) | bytes[p + 3]) >>> 0;
+        }
+        for (let j = 16; j < 64; j++) {
+          const s0 = (((w[j-15] >>> 7) | (w[j-15] << 25)) ^ ((w[j-15] >>> 18) | (w[j-15] << 14)) ^ (w[j-15] >>> 3)) >>> 0;
+          const s1 = (((w[j-2] >>> 17) | (w[j-2] << 15)) ^ ((w[j-2] >>> 19) | (w[j-2] << 13)) ^ (w[j-2] >>> 10)) >>> 0;
+          w[j] = (w[j-16] + s0 + w[j-7] + s1) >>> 0;
+        }
+        let [a, b, c, d, e, f, g, h] = H;
+        for (let j = 0; j < 64; j++) {
+          const S1 = (((e >>> 6) | (e << 26)) ^ ((e >>> 11) | (e << 21)) ^ ((e >>> 25) | (e << 7))) >>> 0;
+          const ch = ((e & f) ^ ((~e) & g)) >>> 0;
+          const temp1 = (h + S1 + ch + SHA256_K[j] + w[j]) >>> 0;
+          const S0 = (((a >>> 2) | (a << 30)) ^ ((a >>> 13) | (a << 19)) ^ ((a >>> 22) | (a << 10))) >>> 0;
+          const maj = ((a & b) ^ (a & c) ^ (b & c)) >>> 0;
+          const temp2 = (S0 + maj) >>> 0;
+          h = g; g = f; f = e; e = (d + temp1) >>> 0;
+          d = c; c = b; b = a; a = (temp1 + temp2) >>> 0;
+        }
+        H[0]=(H[0]+a)>>>0; H[1]=(H[1]+b)>>>0; H[2]=(H[2]+c)>>>0; H[3]=(H[3]+d)>>>0;
+        H[4]=(H[4]+e)>>>0; H[5]=(H[5]+f)>>>0; H[6]=(H[6]+g)>>>0; H[7]=(H[7]+h)>>>0;
+      }
+      return H.map(x => x.toString(16).padStart(8, '0')).join('');
+    }
+
+    async function envolverConClave(textoPlano, claveSecreta) {
+      const padHex = await sha256Hex('ECTOP_WRAP_V1|' + String(claveSecreta || '').trim());
+      const plainBytes = new TextEncoder().encode(String(textoPlano || ''));
+      const out = [];
+      for (let i = 0; i < plainBytes.length; i++) {
+        const kByte = parseInt(padHex.substr((i * 2) % 60, 2), 16);
+        out.push((plainBytes[i] ^ kByte).toString(16).padStart(2, '0'));
+      }
+      return out.join('');
+    }
+
+    async function desenvolverConClave(cipherStr, claveSecreta) {
+      if (!cipherStr) return '';
+      const padHex = await sha256Hex('ECTOP_WRAP_V1|' + String(claveSecreta || '').trim());
+      const s = String(cipherStr).trim();
+      const bytes = [];
+      if (/^[0-9a-f]+$/i.test(s) && s.length % 2 === 0) {
+        for (let i = 0; i < s.length; i += 2) {
+          const cByte = parseInt(s.substr(i, 2), 16);
+          const kByte = parseInt(padHex.substr(((i / 2) * 2) % 60, 2), 16);
+          bytes.push(cByte ^ kByte);
+        }
+      } else {
+        const bin = atob(s);
+        for (let i = 0; i < bin.length; i++) {
+          const cByte = bin.charCodeAt(i);
+          const kByte = parseInt(padHex.slice((i * 2) % 64, ((i * 2) % 64) + 2), 16);
+          bytes.push(cByte ^ kByte);
+        }
+      }
+      return new TextDecoder().decode(new Uint8Array(bytes));
+    }
+
+    function esc(s) {
+      return String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function sanitizeId(prefix, txt) {
+      const clean = String(txt || '').toUpperCase().replace(/[^A-Z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 24);
+      return prefix + '-' + (clean || Date.now().toString(36).toUpperCase());
+    }
+
+    // Ocultar botón descargar APK cuando ya corre dentro de la APK nativa
+    if (typeof window.AndroidBoveda !== 'undefined') {
+      document.getElementById('btnDescargarApkBoveda')?.classList.add('hidden');
+      document.getElementById('btnVolverPortalWeb')?.classList.add('hidden');
+    }
+
+    function abrirExternoSeguro(url) {
+      if (window.AndroidBoveda && typeof window.AndroidBoveda.openExternalUrl === 'function') {
+        window.AndroidBoveda.openExternalUrl(url);
+      } else {
+        window.open(url, '_blank');
+      }
+    }
+
+    function cambiarTabBoveda(tab) {
+      const map = { clientes: 'tabClientes', seguridad: 'tabSeguridad', gerencia: 'tabGerencia' };
+      const btnMap = { clientes: 'tabBtnClientes', seguridad: 'tabBtnSeguridad', gerencia: 'tabBtnGerencia' };
+      Object.keys(map).forEach(k => {
+        document.getElementById(map[k]).classList.toggle('hidden', k !== tab);
+        const btn = document.getElementById(btnMap[k]);
+        btn.className = (k === tab ? 'tab-btn-active' : 'tab-btn-idle') + ' py-3 px-4 rounded-2xl border font-black text-xs uppercase tracking-wide flex items-center justify-center gap-2 transition';
+      });
+      if (tab === 'seguridad') renderCatalogoQuickSeguridad();
+      if (tab === 'gerencia') {
+        poblarSelectEntidadesGerencia();
+        renderCheckboxesInstGerencia();
+      }
+    }
+
+    // =========================================================================
+    // DESBLOQUEO GERENCIAL CON CLAVE MAESTRA + BIOMETRÍA / PIN DEL CELULAR
+    // =========================================================================
+    function bytesToB64Url(buf) {
+      const arr = new Uint8Array(buf);
+      let bin = '';
+      for (let i = 0; i < arr.length; i++) bin += String.fromCharCode(arr[i]);
+      return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    }
+
+    function b64UrlToBytes(str) {
+      const pad = '='.repeat((4 - (str.length % 4)) % 4);
+      const b64 = (str + pad).replace(/-/g, '+').replace(/_/g, '/');
+      const bin = atob(b64);
+      const out = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+      return out;
+    }
+
+    async function detectarSeguridadDispositivo() {
+      if (window.AndroidBoveda && typeof window.AndroidBoveda.tieneSeguridadDispositivo === 'function') {
+        try {
+          const ok = Boolean(window.AndroidBoveda.tieneSeguridadDispositivo());
+          const tipo = typeof window.AndroidBoveda.obtenerTipoSeguridadDispositivo === 'function'
+            ? String(window.AndroidBoveda.obtenerTipoSeguridadDispositivo() || '')
+            : (ok ? 'PIN_O_PATRON' : 'NINGUNA');
+          return { disponible: ok, modo: 'ANDROID_NATIVO', tipo };
+        } catch (e) {
+          return { disponible: false, modo: 'ANDROID_NATIVO', tipo: 'NINGUNA' };
+        }
+      }
+      if (window.isSecureContext && typeof window.PublicKeyCredential !== 'undefined' && typeof PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable === 'function') {
+        try {
+          const ok = segWebAuthnCache !== null
+            ? segWebAuthnCache
+            : await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+          segWebAuthnCache = Boolean(ok);
+          return { disponible: segWebAuthnCache, modo: 'WEBAUTHN', tipo: segWebAuthnCache ? 'BIOMETRIA_O_PIN_WEB' : 'NINGUNA' };
+        } catch (e) {}
+      }
+      return { disponible: false, modo: 'WEB_PASS', tipo: 'NINGUNA' };
+    }
+
+    window.__onBovedaBiometriaNativa = function (ok, detalle) {
+      if (typeof bioAuthPendienteResolver === 'function') {
+        const res = bioAuthPendienteResolver;
+        bioAuthPendienteResolver = null;
+        res({ ok: Boolean(ok), detalle: String(detalle || '') });
+      }
+    };
+
+    function ejecutarAuthNativaAndroid() {
+      return new Promise((resolve) => {
+        if (!window.AndroidBoveda || typeof window.AndroidBoveda.autenticarDispositivo !== 'function') {
+          resolve({ ok: false, detalle: 'NO_BRIDGE' });
+          return;
+        }
+        bioAuthPendienteResolver = resolve;
+        try {
+          window.AndroidBoveda.autenticarDispositivo();
+        } catch (e) {
+          bioAuthPendienteResolver = null;
+          resolve({ ok: false, detalle: 'ERROR_NATIVO' });
+        }
+      });
+    }
+
+    async function registrarWebAuthnBoveda() {
+      const challenge = new Uint8Array(32);
+      crypto.getRandomValues(challenge);
+      const userId = new Uint8Array(16);
+      crypto.getRandomValues(userId);
+      const cred = await navigator.credentials.create({
+        publicKey: {
+          challenge,
+          rp: { name: "Bóveda Gerencial E&C TOP" },
+          user: {
+            id: userId,
+            name: "propietario@ectop.cl",
+            displayName: "Eduardo Martínez Venegas (Propietario)"
+          },
+          pubKeyCredParams: [
+            { type: "public-key", alg: -7 },
+            { type: "public-key", alg: -257 }
+          ],
+          authenticatorSelection: {
+            authenticatorAttachment: "platform",
+            userVerification: "required",
+            residentKey: "preferred"
+          },
+          timeout: 60000
+        }
+      });
+      if (!cred || !cred.rawId) throw new Error('Credencial biométrica no creada');
+      localStorage.setItem(STORAGE_WEBAUTHN_CRED, bytesToB64Url(cred.rawId));
+      return true;
+    }
+
+    async function verificarWebAuthnBoveda() {
+      const credId = localStorage.getItem(STORAGE_WEBAUTHN_CRED);
+      if (!credId) return { ok: false, detalle: 'SIN_CREDENCIAL' };
+      try {
+        const challenge = new Uint8Array(32);
+        crypto.getRandomValues(challenge);
+        const assertion = await navigator.credentials.get({
+          publicKey: {
+            challenge,
+            allowCredentials: [{
+              type: "public-key",
+              id: b64UrlToBytes(credId),
+              transports: ["internal"]
+            }],
+            userVerification: "required",
+            timeout: 60000
+          }
+        });
+        return assertion ? { ok: true, detalle: 'VERIFICADO_WEB' } : { ok: false, detalle: 'CANCELADO' };
+      } catch (e) {
+        return { ok: false, detalle: (e && e.name === 'NotAllowedError') ? 'CANCELADO' : 'ERROR_WEBAUTHN' };
+      }
+    }
+
+    async function tieneMaestroValidoGuardado() {
+      const saved = localStorage.getItem(STORAGE_MASTER);
+      if (!saved) return null;
+      const h = await sha256Hex('ECTOP_HASH_V1|' + saved);
+      return h === OWNER_HASH ? saved : null;
+    }
+
+    async function evaluarModoDesbloqueoRapido() {
+      const saved = await tieneMaestroValidoGuardado();
+      const seg = await detectarSeguridadDispositivo();
+      if (!saved || !seg.disponible) return { listo: false, seg, saved };
+      if (seg.modo === 'ANDROID_NATIVO') {
+        const flag = localStorage.getItem(STORAGE_BIO_APK);
+        // Si ya había clave guardada previamente y el celular tiene PIN/biometría activo, exigir biometría/PIN
+        return { listo: flag !== '0', seg, saved };
+      }
+      if (seg.modo === 'WEBAUTHN') {
+        const credId = localStorage.getItem(STORAGE_WEBAUTHN_CRED);
+        return { listo: Boolean(credId), seg, saved };
+      }
+      return { listo: false, seg, saved };
+    }
+
+    function actualizarUISeguridadBadgeYForm(seg) {
+      const badge = document.getElementById('badgeSeguridadBioStatus');
+      const wrapChk = document.getElementById('wrapChkRecordarDueno');
+      const chk = document.getElementById('chkRecordarDueno');
+      const lbl = document.getElementById('lblRecordarDuenoTxt');
+      if (badge) {
+        badge.classList.remove('hidden');
+        if (seg.disponible) {
+          badge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/70 border border-emerald-500/40 text-[11px] font-bold text-emerald-300 mb-4";
+          badge.innerText = seg.tipo === 'PIN_O_PATRON'
+            ? "🛡️ PIN / Patrón de celular activado y listo"
+            : "🛡️ Biometría / PIN del dispositivo activado";
+        } else {
+          badge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 border border-slate-700 text-[11px] font-bold text-slate-300 mb-4";
+          badge.innerText = "🔒 PIN / Biometría no activado en este equipo — Acceso solo con Clave Maestra";
+        }
+      }
+      if (chk && lbl && wrapChk) {
+        if (seg.disponible) {
+          chk.disabled = false;
+          chk.checked = true;
+          lbl.innerText = "Habilitar desbloqueo rápido con Biometría o PIN del celular tras validar esta clave";
+          wrapChk.classList.remove('opacity-60');
+        } else {
+          chk.checked = false;
+          chk.disabled = true;
+          lbl.innerText = "Active un PIN o huella en su celular/equipo para usar desbloqueo rápido sin clave maestra";
+          wrapChk.classList.add('opacity-60');
+        }
+      }
+    }
+
+    function mostrarVistaDesbloqueoBiometrico(seg) {
+      document.getElementById('boxUnlockBiometria')?.classList.remove('hidden');
+      document.getElementById('formMasterPassDueno')?.classList.add('hidden');
+      document.getElementById('btnVolverABiometria')?.classList.add('hidden');
+      const errBio = document.getElementById('errBioDueno');
+      if (errBio) errBio.classList.add('hidden');
+      const txt = document.getElementById('txtDescBioUnlock');
+      if (txt && seg) {
+        txt.innerText = seg.tipo === 'PIN_O_PATRON'
+          ? "La clave maestra ya fue validada en este equipo. Confirma el PIN o patrón de tu celular para desbloquear la Bóveda."
+          : "La clave maestra ya fue validada en este dispositivo. Usa tu huella, rostro o PIN del celular para desbloquear la Bóveda.";
+      }
+    }
+
+    function mostrarFormularioClaveMaestra() {
+      document.getElementById('boxUnlockBiometria')?.classList.add('hidden');
+      document.getElementById('formMasterPassDueno')?.classList.remove('hidden');
+      const btnVol = document.getElementById('btnVolverABiometria');
+      evaluarModoDesbloqueoRapido().then(st => {
+        if (btnVol) btnVol.classList.toggle('hidden', !st.listo);
+      });
+      document.getElementById('inpMasterPass')?.focus();
+    }
+
+    function volverAVistaBiometria() {
+      evaluarModoDesbloqueoRapido().then(st => {
+        if (st.listo) mostrarVistaDesbloqueoBiometrico(st.seg);
+      });
+    }
+
+    function olvidarDispositivoBoveda() {
+      claveMaestra = "";
+      localStorage.removeItem(STORAGE_MASTER);
+      localStorage.removeItem(STORAGE_BIO_APK);
+      localStorage.removeItem(STORAGE_WEBAUTHN_CRED);
+      document.getElementById('boxUnlockBiometria')?.classList.add('hidden');
+      document.getElementById('formMasterPassDueno')?.classList.remove('hidden');
+      document.getElementById('btnVolverABiometria')?.classList.add('hidden');
+      detectarSeguridadDispositivo().then(actualizarUISeguridadBadgeYForm);
+      document.getElementById('inpMasterPass')?.focus();
+    }
+
+    async function desbloquearConBiometriaOPin() {
+      if (bioAuthEnCurso) return;
+      const errBio = document.getElementById('errBioDueno');
+      const btn = document.getElementById('btnDesbloquearBio');
+      if (errBio) errBio.classList.add('hidden');
+
+      const st = await evaluarModoDesbloqueoRapido();
+      if (!st.saved) {
+        olvidarDispositivoBoveda();
+        return;
+      }
+      if (!st.seg.disponible) {
+        actualizarUISeguridadBadgeYForm(st.seg);
+        mostrarFormularioClaveMaestra();
+        if (errBio) {
+          errBio.innerText = "⚠️ El PIN o la biometría fueron desactivados en el celular. Ingrese la clave maestra.";
+          errBio.classList.remove('hidden');
+        }
+        return;
+      }
+
+      bioAuthEnCurso = true;
+      if (btn) {
+        btn.disabled = true;
+        btn.innerText = "⏳ Esperando verificación biométrica / PIN...";
+      }
+      try {
+        const res = st.seg.modo === 'ANDROID_NATIVO'
+          ? await ejecutarAuthNativaAndroid()
+          : await verificarWebAuthnBoveda();
+
+        if (res && res.ok) {
+          claveMaestra = st.saved;
+          await mostrarPanelMaestro();
+          return;
+        }
+        if (res && res.detalle === 'SIN_SEGURIDAD_DISPOSITIVO') {
+          mostrarFormularioClaveMaestra();
+          return;
+        }
+        if (errBio) {
+          errBio.innerText = (res && res.detalle === 'CANCELADO')
+            ? "Verificación cancelada. Pulse el botón para intentar nuevamente o use la Clave Maestra."
+            : "No se pudo verificar tu biometría o PIN. Intenta nuevamente o usa tu Clave Maestra.";
+          errBio.classList.remove('hidden');
+        }
+      } finally {
+        bioAuthEnCurso = false;
+        if (btn) {
+          btn.disabled = false;
+          btn.innerText = "🪪 Desbloquear con Biometría / PIN";
+        }
+      }
+    }
+
+    async function activarBiometriaWebDesdePanel() {
+      try {
+        await registrarWebAuthnBoveda();
+        if (claveMaestra) localStorage.setItem(STORAGE_MASTER, claveMaestra);
+        document.getElementById('btnActivarBioWebHeader')?.classList.add('hidden');
+        alert("✅ Biometría / PIN de este navegador vinculada correctamente a la Bóveda Gerencial.");
+      } catch (e) {
+        alert("⚠️ No se pudo registrar biometría o PIN en este navegador (" + (e && e.message ? e.message : 'cancelado') + ").");
+      }
+    }
+
+    // INICIALIZACIÓN SEGURA DE BÓVEDA GERENCIAL
+    (async function inicializarAutenticacionBoveda() {
+      try {
+        const st = await evaluarModoDesbloqueoRapido();
+        actualizarUISeguridadBadgeYForm(st.seg);
+        if (st.listo) {
+          mostrarVistaDesbloqueoBiometrico(st.seg);
+          if (st.seg.modo === 'ANDROID_NATIVO') {
+            setTimeout(() => { desbloquearConBiometriaOPin(); }, 180);
+          }
+          return;
+        }
+        // Si existía una clave guardada antigua pero este equipo no tiene PIN/biometría activado o aún no vinculó WebAuthn:
+        if (st.saved && !st.seg.disponible) {
+          localStorage.removeItem(STORAGE_MASTER);
+        }
+      } catch (e) {}
+    })();
+
+    async function iniciarSesionDueno(e) {
+      e.preventDefault();
+      const pass = document.getElementById('inpMasterPass').value.trim();
+      const err = document.getElementById('errLoginDueno');
+      err.classList.add('hidden');
+      const h = await sha256Hex('ECTOP_HASH_V1|' + pass);
+      if (h !== OWNER_HASH) {
+        err.innerText = "❌ Clave maestra incorrecta.";
+        err.classList.remove('hidden');
+        return;
+      }
+      claveMaestra = pass;
+      document.getElementById('inpMasterPass').value = '';
+
+      const quiereBio = Boolean(document.getElementById('chkRecordarDueno')?.checked);
+      const seg = await detectarSeguridadDispositivo();
+      if (quiereBio && seg.disponible) {
+        if (seg.modo === 'ANDROID_NATIVO') {
+          localStorage.setItem(STORAGE_MASTER, pass);
+          localStorage.setItem(STORAGE_BIO_APK, '1');
+        } else if (seg.modo === 'WEBAUTHN') {
+          localStorage.setItem(STORAGE_MASTER, pass);
+          if (!localStorage.getItem(STORAGE_WEBAUTHN_CRED)) {
+            try {
+              await registrarWebAuthnBoveda();
+            } catch (errBio) {
+              // Algunos navegadores (p.ej. Safari) requieren otro toque directo en el botón del panel
+              document.getElementById('btnActivarBioWebHeader')?.classList.remove('hidden');
+            }
+          }
+        }
+      } else if (!quiereBio) {
+        localStorage.removeItem(STORAGE_MASTER);
+        localStorage.removeItem(STORAGE_BIO_APK);
+        localStorage.removeItem(STORAGE_WEBAUTHN_CRED);
+      } else {
+        // Sin PIN ni biometría activa en el dispositivo: nunca guardar acceso sin bloqueo
+        localStorage.removeItem(STORAGE_MASTER);
+        localStorage.removeItem(STORAGE_BIO_APK);
+      }
+
+      await mostrarPanelMaestro();
+    }
+
+    async function cerrarSesionDueno() {
+      claveMaestra = "";
+      document.getElementById('panelConsolaDueno').classList.add('hidden');
+      document.getElementById('btnBloquearSesion').classList.add('hidden');
+      document.getElementById('btnSincronizarTop').classList.add('hidden');
+      document.getElementById('btnActivarBioWebHeader')?.classList.add('hidden');
+      document.getElementById('pantallaLoginDueno').classList.remove('hidden');
+      const st = await evaluarModoDesbloqueoRapido();
+      actualizarUISeguridadBadgeYForm(st.seg);
+      if (st.listo) {
+        mostrarVistaDesbloqueoBiometrico(st.seg);
+      } else {
+        localStorage.removeItem(STORAGE_MASTER);
+        document.getElementById('boxUnlockBiometria')?.classList.add('hidden');
+        document.getElementById('formMasterPassDueno')?.classList.remove('hidden');
+        document.getElementById('inpMasterPass')?.focus();
+      }
+    }
+
+    async function mostrarPanelMaestro() {
+      document.getElementById('pantallaLoginDueno').classList.add('hidden');
+      document.getElementById('panelConsolaDueno').classList.remove('hidden');
+      document.getElementById('btnBloquearSesion').classList.remove('hidden');
+      document.getElementById('btnSincronizarTop').classList.remove('hidden');
+      const seg = await detectarSeguridadDispositivo();
+      const mostrarBtnWeb = seg.modo === 'WEBAUTHN' && seg.disponible && !localStorage.getItem(STORAGE_WEBAUTHN_CRED);
+      document.getElementById('btnActivarBioWebHeader')?.classList.toggle('hidden', !mostrarBtnWeb);
+      renderChipsInstTempCliente();
+      renderChipsInstTempSeguridad();
+      await cargarDatosBovedaNube();
+    }
+
+    window.__exigirRebloqueoBiometrico = async function () {
+      if (!claveMaestra) return;
+      await cerrarSesionDueno();
+      const st = await evaluarModoDesbloqueoRapido();
+      if (st.listo && st.seg.modo === 'ANDROID_NATIVO') {
+        desbloquearConBiometriaOPin();
+      }
+    };
+
+    if (typeof document !== 'undefined' && typeof document.addEventListener === 'function') {
+      let webHiddenAtMs = 0;
+      document.addEventListener('visibilitychange', () => {
+        if (window.AndroidBoveda) return;
+        if (document.visibilityState === 'hidden') {
+          webHiddenAtMs = Date.now();
+        } else if (document.visibilityState === 'visible' && webHiddenAtMs > 0) {
+          const elapsed = Date.now() - webHiddenAtMs;
+          webHiddenAtMs = 0;
+          if (elapsed >= 30000 && claveMaestra) {
+            cerrarSesionDueno();
+          }
+        }
+      });
+    }
+
+    function setBadgeNube(texto, ok = true) {
+      const b = document.getElementById('badgeEstadoNube');
+      if (!b) return;
+      b.innerText = texto;
+      b.className = ok
+        ? "px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 text-[10px] font-bold"
+        : "px-2 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/40 text-amber-300 text-[10px] font-bold";
+    }
+
+    async function cargarDatosBovedaNube(avisar = false) {
+      setBadgeNube("⏳ Sincronizando Nube Privada...", true);
+      try {
+        const res = await fetch(SUPA_URL + "/rest/v1/ectop_sync_state?room_id=eq." + ROOM_ID + "&select=payload", {
+          headers: { "apikey": SUPA_KEY, "Authorization": "Bearer " + SUPA_KEY }
+        });
+        if (res.ok) {
+          const rows = await res.json();
+          const p = (Array.isArray(rows) && rows[0] && rows[0].payload) ? rows[0].payload : {};
+          const rawLics = Array.isArray(p.licencias) ? p.licencias : [];
+          let rawSeg = Array.isArray(p.empresasSeguridad) ? p.empresasSeguridad : [];
+          const rawGer = Array.isArray(p.usuariosGerencia) ? p.usuariosGerencia : [];
+
+          // Migración limpia: si TRANSCOM LTDA. u otra empresa marcada como seguridad estaba en licencias
+          const licClientes = [];
+          rawLics.forEach(item => {
+            if (!item || typeof item !== 'object') return;
+            const esSeg = item.tipoEntidad === 'EMPRESA_SEGURIDAD' || String(item.empresa || '').toUpperCase().includes('TRANSCOM');
+            if (esSeg) {
+              if (!rawSeg.some(s => String(s.empresa || '').toUpperCase() === String(item.empresa || '').toUpperCase())) {
+                rawSeg.push(Object.assign({}, item, {
+                  id: item.id || sanitizeId('SEG', item.empresa),
+                  tipoEntidad: 'EMPRESA_SEGURIDAD',
+                  modulos: item.modulos || 'AMBOS',
+                  instalaciones: Array.isArray(item.instalaciones) && item.instalaciones.length ? item.instalaciones : [
+                    { id: 'MOLINA', planta: 'Patagoniafresh Molina', empresaCliente: 'PATAGONIAFRESH', porterias: ['PRINCIPAL', 'PULPA'], activa: true }
+                  ]
+                }));
+              }
+            } else {
+              licClientes.push(Object.assign({}, item, {
+                id: item.id || sanitizeId('CLI', item.empresa),
+                tipoEntidad: 'EMPRESA_CLIENTE',
+                modulos: item.modulos || 'AMBOS',
+                instalaciones: Array.isArray(item.instalaciones) ? item.instalaciones : []
+              }));
+            }
+          });
+
+          stateBoveda = {
+            licencias: licClientes,
+            empresasSeguridad: rawSeg.map(s => Object.assign({}, s, {
+              id: s.id || sanitizeId('SEG', s.empresa),
+              tipoEntidad: 'EMPRESA_SEGURIDAD',
+              modulos: s.modulos || 'AMBOS',
+              instalaciones: Array.isArray(s.instalaciones) ? s.instalaciones : []
+            })),
+            usuariosGerencia: rawGer.map(g => {
+              const rolCta = (g.rolCuenta === 'MASTER' || g.soloLectura === false) ? 'MASTER' : 'GERENCIA';
+              return Object.assign({}, g, {
+                id: g.id || sanitizeId(rolCta === 'MASTER' ? 'MST' : 'GER', g.username),
+                rolCuenta: rolCta,
+                soloLectura: rolCta !== 'MASTER',
+                apps: Array.isArray(g.apps) && g.apps.length ? g.apps : ['ACCESO', 'LOGISTICA'],
+                instalaciones: Array.isArray(g.instalaciones) && g.instalaciones.length ? g.instalaciones : ['TODAS'],
+                estado: g.estado || 'ACTIVA'
+              });
+            }),
+            updatedAt: Number(p.updatedAt || Date.now())
+          };
+          localStorage.setItem('ectop_boveda_cache_admin_v2', JSON.stringify(stateBoveda));
+          setBadgeNube("✅ Nube Privada Sincronizada", true);
+          if (avisar) alert("✅ Datos descargados y sincronizados desde la Nube Privada E&C TOP Cloud.");
+        }
+      } catch (e) {
+        try {
+          const cached = JSON.parse(localStorage.getItem('ectop_boveda_cache_admin_v2') || 'null');
+          if (cached) stateBoveda = cached;
+        } catch (_) {}
+        setBadgeNube("⚠️ Trabajando en caché local", false);
+      }
+      renderTodoConsola();
+    }
+
+    async function guardarDatosBovedaNube() {
+      setBadgeNube("⏳ Guardando en Nube Privada...", true);
+      stateBoveda.updatedAt = Date.now();
+      localStorage.setItem('ectop_boveda_cache_admin_v2', JSON.stringify(stateBoveda));
+      try {
+        const res = await fetch(SUPA_URL + "/rest/v1/ectop_sync_state?on_conflict=room_id", {
+          method: "POST",
+          headers: {
+            "apikey": SUPA_KEY,
+            "Authorization": "Bearer " + SUPA_KEY,
+            "Content-Type": "application/json",
+            "Prefer": "resolution=merge-duplicates,return=minimal"
+          },
+          body: JSON.stringify([{
+            room_id: ROOM_ID,
+            updated_by: "SUPERADMIN_EDUARDO",
+            payload: stateBoveda,
+            updated_at: Date.now()
+          }])
+        });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        setBadgeNube("✅ Cambios Aplicados en Tiempo Real", true);
+      } catch (err) {
+        setBadgeNube("❌ Error al guardar en Nube", false);
+        alert("No se pudo conectar con la Nube Privada. Verifique su internet.");
+      }
+    }
+
+    function actualizarKPIs() {
+      const cliAct = stateBoveda.licencias.filter(x => x.estado !== 'SUSPENDIDA').length;
+      const segAct = stateBoveda.empresasSeguridad.filter(x => x.estado !== 'SUSPENDIDA').length;
+      const totalInstSeg = stateBoveda.empresasSeguridad.reduce((acc, s) => acc + (Array.isArray(s.instalaciones) ? s.instalaciones.length : 0), 0);
+      const gerAct = stateBoveda.usuariosGerencia.filter(g => g.estado !== 'SUSPENDIDA').length;
+
+      document.getElementById('kpiClientesActivos').innerText = cliAct;
+      document.getElementById('kpiClientesTotal').innerText = stateBoveda.licencias.length + " registradas";
+      document.getElementById('kpiSeguridadActivas').innerText = segAct;
+      document.getElementById('kpiSeguridadInsts').innerText = totalInstSeg + " instalaciones";
+      document.getElementById('kpiGerenciaActivos').innerText = gerAct;
+      const masterCount = stateBoveda.usuariosGerencia.filter(g => g.rolCuenta === 'MASTER').length;
+      const gerCount = stateBoveda.usuariosGerencia.length - masterCount;
+      document.getElementById('kpiGerenciaTotal').innerText = `${masterCount} Master • ${gerCount} Gerencia`;
+    }
+
+    async function renderTodoConsola() {
+      actualizarKPIs();
+      await renderListaClientes();
+      await renderListaSeguridad();
+      renderCatalogoQuickSeguridad();
+      poblarSelectEntidadesGerencia();
+      renderCheckboxesInstGerencia();
+      renderListaGerencia();
+    }
+
+    // =========================================================================
+    // TAB 1: EMPRESAS CLIENTES
+    // =========================================================================
+    function agregarInstTempCliente() {
+      const inp = document.getElementById('cliNuevaInstNombre');
+      const ptInp = document.getElementById('cliNuevaInstPorterias');
+      const val = (inp.value || '').trim().toUpperCase();
+      if (!val) return;
+      const portRaw = (ptInp ? ptInp.value : '') || 'PRINCIPAL, PULPA';
+      const porterias = portRaw.split(/[,;|]+/).map(s => s.trim().toUpperCase()).filter(Boolean);
+      const id = sanitizeId('INST', val);
+      if (!instTempCliente.some(x => x.planta === val || x.id === id)) {
+        instTempCliente.push({
+          id,
+          nombre: val,
+          planta: val,
+          porterias: porterias.length ? porterias : ['PRINCIPAL', 'PULPA'],
+          activa: true
+        });
+      }
+      inp.value = '';
+      if (ptInp) ptInp.value = '';
+      renderChipsInstTempCliente();
+    }
+
+    function quitarInstTempCliente(idx) {
+      instTempCliente.splice(idx, 1);
+      renderChipsInstTempCliente();
+    }
+
+    function renderChipsInstTempCliente() {
+      const box = document.getElementById('cliInstChips');
+      if (!box) return;
+      if (!instTempCliente.length) {
+        box.innerHTML = '<span class="text-slate-500 italic">Sin instalaciones agregadas (se usará sede principal por defecto).</span>';
+        return;
+      }
+      box.innerHTML = instTempCliente.map((inst, idx) => `
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-500/15 border border-amber-500/40 text-amber-200 font-bold">
+          <span>🏭 ${esc(inst.planta || inst.nombre)}${Array.isArray(inst.porterias) && inst.porterias.length ? ' <span class="text-[10px] text-amber-300/75">[' + esc(inst.porterias.join(', ')) + ']</span>' : ''}</span>
+          <button type="button" onclick="quitarInstTempCliente(${idx})" class="text-rose-400 hover:text-rose-300 font-black">×</button>
+        </span>
+      `).join('');
+    }
+
+    function editarEmpresaCliente(idx) {
+      const c = stateBoveda.licencias[idx];
+      if (!c) return;
+      document.getElementById('cliEditIdx').value = String(idx);
+      document.getElementById('cliNombre').value = c.empresa || '';
+      document.getElementById('cliRut').value = c.rut || '';
+      document.getElementById('cliWa').value = c.whatsapp || '';
+      document.getElementById('cliVence').value = c.vence || '';
+      document.getElementById('cliModulos').value = c.modulos || 'AMBOS';
+      desenvolverConClave(c.claveCifradaAdmin, claveMaestra).then(cl => {
+        document.getElementById('cliClave').value = cl || '';
+      }).catch(() => {});
+      instTempCliente = (c.instalaciones || []).map(x => Object.assign({}, x));
+      renderChipsInstTempCliente();
+      document.getElementById('tituloFormCliente').innerText = "✏️ Editando: " + c.empresa;
+      document.getElementById('btnCancelarEditCliente').classList.remove('hidden');
+      document.getElementById('cliNombre').focus();
+    }
+
+    function cancelarEdicionCliente() {
+      document.getElementById('cliEditIdx').value = '-1';
+      document.getElementById('cliNombre').value = '';
+      document.getElementById('cliRut').value = '';
+      document.getElementById('cliClave').value = '';
+      document.getElementById('cliWa').value = '';
+      document.getElementById('cliVence').value = '';
+      document.getElementById('cliModulos').value = 'AMBOS';
+      const ptInpCli = document.getElementById('cliNuevaInstPorterias');
+      if (ptInpCli) ptInpCli.value = '';
+      instTempCliente = [];
+      renderChipsInstTempCliente();
+      document.getElementById('tituloFormCliente').innerText = "➕ Nueva Empresa Cliente";
+      document.getElementById('btnCancelarEditCliente').classList.add('hidden');
+    }
+
+    async function guardarEmpresaCliente(e) {
+      e.preventDefault();
+      const idxEdit = parseInt(document.getElementById('cliEditIdx').value, 10);
+      const emp = document.getElementById('cliNombre').value.trim().toUpperCase();
+      const rut = document.getElementById('cliRut').value.trim().toUpperCase();
+      const clave = document.getElementById('cliClave').value.trim();
+      const wa = document.getElementById('cliWa').value.trim();
+      const vence = document.getElementById('cliVence').value.trim();
+      const modulos = document.getElementById('cliModulos').value;
+      if (!emp || !clave) return;
+
+      const btn = document.getElementById('btnGuardarCliente');
+      btn.disabled = true;
+      btn.innerText = "⏳ CIFRANDO Y GUARDANDO...";
+      try {
+        const instalacionesFin = instTempCliente.length
+          ? instTempCliente.map(x => Object.assign({ activa: true, porterias: ['PRINCIPAL', 'PULPA'] }, x))
+          : [{ id: sanitizeId('INST', emp), nombre: emp, planta: emp, porterias: ['PRINCIPAL', 'PULPA'], activa: true }];
+        const existing = idxEdit >= 0 ? stateBoveda.licencias[idxEdit] : null;
+        const nuevo = {
+          id: (existing && existing.id) || sanitizeId('CLI', emp),
+          tipoEntidad: 'EMPRESA_CLIENTE',
+          empresa: emp,
+          rut,
+          modulos,
+          instalaciones: instalacionesFin,
+          hashClave: await sha256Hex('ECTOP_HASH_V1|' + clave),
+          sobreCifrado: await envolverConClave(claveMaestra, clave),
+          claveCifradaAdmin: await envolverConClave(clave, claveMaestra),
+          whatsapp: wa,
+          vence,
+          estado: (existing && existing.estado) || 'ACTIVA',
+          updatedAt: Date.now()
+        };
+        if (idxEdit >= 0) {
+          stateBoveda.licencias[idxEdit] = nuevo;
+        } else {
+          const dup = stateBoveda.licencias.findIndex(x => x.empresa === emp);
+          if (dup >= 0) stateBoveda.licencias[dup] = nuevo;
+          else stateBoveda.licencias.push(nuevo);
+        }
+        await guardarDatosBovedaNube();
+        cancelarEdicionCliente();
+        await renderTodoConsola();
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "💾 Guardar Empresa en Nube Privada";
+      }
+    }
+
+    async function toggleInstCliente(cIdx, iIdx) {
+      const c = stateBoveda.licencias[cIdx];
+      if (!c || !c.instalaciones || !c.instalaciones[iIdx]) return;
+      c.instalaciones[iIdx].activa = c.instalaciones[iIdx].activa === false;
+      c.updatedAt = Date.now();
+      await guardarDatosBovedaNube();
+      await renderTodoConsola();
+    }
+
+    async function toggleEstadoCliente(idx) {
+      const c = stateBoveda.licencias[idx];
+      if (!c) return;
+      c.estado = (c.estado === 'SUSPENDIDA') ? 'ACTIVA' : 'SUSPENDIDA';
+      c.updatedAt = Date.now();
+      await guardarDatosBovedaNube();
+      await renderTodoConsola();
+    }
+
+    async function eliminarCliente(idx) {
+      const c = stateBoveda.licencias[idx];
+      if (!c || !confirm("¿Eliminar permanentemente la empresa cliente " + c.empresa + "?")) return;
+      stateBoveda.licencias.splice(idx, 1);
+      await guardarDatosBovedaNube();
+      await renderTodoConsola();
+    }
+
+    async function enviarWhatsAppBoveda(tipo, idx) {
+      const lista = tipo === 'SEG' ? stateBoveda.empresasSeguridad : stateBoveda.licencias;
+      const item = lista[idx];
+      if (!item) return;
+      let clave = '(Consulte con Eduardo)';
+      try { clave = await desenvolverConClave(item.claveCifradaAdmin, claveMaestra); } catch (_) {}
+      const insts = (item.instalaciones || []).filter(i => i.activa !== false).map(i => i.planta || i.nombre).join(', ');
+      const msg = [
+        "*ACTIVACIÓN BÓVEDA EMPRESARIAL E&C TOP*",
+        "Empresa: *" + item.empresa + "* (" + (tipo === 'SEG' ? 'Empresa de Seguridad Multi-Instalación' : 'Empresa Cliente') + ")",
+        insts ? "Instalaciones habilitadas: " + insts : "",
+        "🔑 Clave de Bóveda (1 sola vez por equipo): *" + clave + "*",
+        "",
+        "🌐 Portal Web: https://laloxz.github.io/ectop/",
+        "_Soporte: Eduardo Martínez Venegas • +56 9 5350 7453_"
+      ].filter(Boolean).join("\n");
+      const num = String(item.whatsapp || '').replace(/\D/g, '');
+      const url = num ? ("https://wa.me/" + num + "?text=" + encodeURIComponent(msg)) : ("https://wa.me/?text=" + encodeURIComponent(msg));
+      abrirExternoSeguro(url);
+    }
+
+    async function renderListaClientes() {
+      const box = document.getElementById('listaClientesBox');
+      if (!box) return;
+      const q = (document.getElementById('busqClientes')?.value || '').trim().toUpperCase();
+      const filtered = stateBoveda.licencias.map((x, idx) => ({ x, idx })).filter(({ x }) => !q || String(x.empresa || '').toUpperCase().includes(q));
+      if (!filtered.length) {
+        box.innerHTML = '<div class="text-xs text-slate-500 text-center py-8 italic">No hay empresas clientes registradas.</div>';
+        return;
+      }
+      let html = '';
+      for (const { x, idx } of filtered) {
+        let claveTxt = '••••';
+        try { if (x.claveCifradaAdmin) claveTxt = await desenvolverConClave(x.claveCifradaAdmin, claveMaestra); } catch (_) {}
+        const act = x.estado !== 'SUSPENDIDA';
+        const modLabel = x.modulos === 'ACCESO' ? 'Solo Acceso' : (x.modulos === 'LOGISTICA' ? 'Solo Logística' : 'Acceso + Logística');
+        const chips = (x.instalaciones || []).map((inst, ii) => {
+          const iAct = inst.activa !== false;
+          return `<button type="button" onclick="toggleInstCliente(${idx},${ii})" title="Clic para activar/suspender esta instalación"
+            class="px-2 py-0.5 rounded-lg text-[10px] font-bold border ${iAct ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300' : 'bg-rose-500/15 border-rose-500/40 text-rose-300 line-through'}">
+            ${iAct ? '🟢' : '⛔'} ${esc(inst.planta || inst.nombre)}
+          </button>`;
+        }).join('');
+
+        html += `
+          <div class="p-3.5 rounded-2xl bg-slate-950/90 border ${act ? 'border-emerald-500/35' : 'border-rose-500/50'} space-y-2">
+            <div class="flex flex-wrap items-start justify-between gap-2">
+              <div>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="text-sm font-black text-white">${esc(x.empresa)}</span>
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-black ${act ? 'bg-emerald-500/20 text-emerald-300' : 'bg-rose-500/20 text-rose-300'}">${act ? '● ACTIVA' : '⛔ SUSPENDIDA'}</span>
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-300">${modLabel}</span>
+                </div>
+                <div class="text-[11px] text-slate-400 mt-1 flex flex-wrap gap-3">
+                  <span>🔑 Clave: <b class="text-amber-300 font-mono select-all">${esc(claveTxt)}</b></span>
+                  ${x.rut ? `<span>RUT: ${esc(x.rut)}</span>` : ''}
+                  ${x.vence ? `<span>📅 Vence: ${esc(x.vence)}</span>` : ''}
+                </div>
+              </div>
+              <div class="flex flex-wrap gap-1.5">
+                <button type="button" onclick="enviarWhatsAppBoveda('CLI',${idx})" class="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-black text-[10px]">📲 WA</button>
+                <button type="button" onclick="editarEmpresaCliente(${idx})" class="px-2.5 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-white font-bold text-[10px]">✏️</button>
+                <button type="button" onclick="toggleEstadoCliente(${idx})" class="px-2.5 py-1 rounded-lg ${act ? 'bg-amber-600 hover:bg-amber-500' : 'bg-emerald-600 hover:bg-emerald-500'} text-white font-black text-[10px]">${act ? '⏸️ Suspender' : '▶️ Activar'}</button>
+                <button type="button" onclick="eliminarCliente(${idx})" class="px-2 py-1 rounded-lg bg-rose-700 hover:bg-rose-600 text-white font-black text-[10px]">🗑️</button>
+              </div>
+            </div>
+            ${chips ? `<div class="flex flex-wrap gap-1.5 pt-1 border-t border-slate-800/80">${chips}</div>` : ''}
+          </div>`;
+      }
+      box.innerHTML = html;
+    }
+
+    // =========================================================================
+    // TAB 2: EMPRESAS DE SEGURIDAD (MULTI-INSTALACIÓN)
+    // =========================================================================
+    function agregarInstTempSeguridad(plantaPreset, cliPreset) {
+      const pInp = document.getElementById('segInstPlanta');
+      const cInp = document.getElementById('segInstCliente');
+      const ptInp = document.getElementById('segInstPorterias');
+      const planta = (plantaPreset || (pInp ? pInp.value : '') || '').trim().toUpperCase();
+      const cli = (cliPreset || (cInp ? cInp.value : '') || '').trim().toUpperCase();
+      const portRaw = (ptInp ? ptInp.value : '') || 'PRINCIPAL';
+      const porterias = portRaw.split(/[,;|]+/).map(s => s.trim().toUpperCase()).filter(Boolean);
+      if (!planta) return;
+      const id = sanitizeId('SEDE', planta);
+      if (!instTempSeguridad.some(x => x.planta === planta || x.id === id)) {
+        instTempSeguridad.push({
+          id,
+          planta,
+          nombre: planta,
+          empresaCliente: cli || planta,
+          porterias: porterias.length ? porterias : ['PRINCIPAL'],
+          activa: true
+        });
+      }
+      if (!plantaPreset && pInp) pInp.value = '';
+      if (!cliPreset && cInp) cInp.value = '';
+      if (ptInp) ptInp.value = '';
+      renderChipsInstTempSeguridad();
+    }
+
+    function quitarInstTempSeguridad(idx) {
+      instTempSeguridad.splice(idx, 1);
+      renderChipsInstTempSeguridad();
+    }
+
+    function renderCatalogoQuickSeguridad() {
+      const box = document.getElementById('segCatalogoQuick');
+      if (!box) return;
+      const opts = [];
+      stateBoveda.licencias.forEach(cli => {
+        (cli.instalaciones || []).forEach(inst => {
+          opts.push({ planta: inst.planta || inst.nombre, cliente: cli.empresa });
+        });
+      });
+      if (!opts.length) {
+        box.innerHTML = '';
+        return;
+      }
+      box.innerHTML = '<span class="text-[10px] text-slate-500 mr-1">Atajo desde clientes:</span>' + opts.slice(0, 8).map(o => `
+        <button type="button" onclick="agregarInstTempSeguridad('${esc(o.planta)}','${esc(o.cliente)}')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-cyan-900 border border-slate-700 text-[10px] font-bold text-cyan-200">+ ${esc(o.planta)}</button>
+      `).join('');
+    }
+
+    function renderChipsInstTempSeguridad() {
+      const box = document.getElementById('segInstChips');
+      if (!box) return;
+      if (!instTempSeguridad.length) {
+        box.innerHTML = '<div class="text-[11px] text-slate-500 italic">Agregue las instalaciones o plantas asignadas a esta empresa de seguridad.</div>';
+        return;
+      }
+      box.innerHTML = instTempSeguridad.map((inst, idx) => `
+        <div class="flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-xl bg-slate-900 border border-cyan-500/35 text-[11px]">
+          <div class="truncate">
+            <b class="text-cyan-200">📍 ${esc(inst.planta)}</b>
+            <span class="text-slate-400"> (${esc(inst.empresaCliente || 'Cliente')})</span>
+            <span class="text-[10px] text-slate-500 ml-1">[${(inst.porterias || ['PRINCIPAL']).join(', ')}]</span>
+          </div>
+          <button type="button" onclick="quitarInstTempSeguridad(${idx})" class="text-rose-400 hover:text-rose-300 font-black px-1">×</button>
+        </div>
+      `).join('');
+    }
+
+    function editarEmpresaSeguridad(idx) {
+      const s = stateBoveda.empresasSeguridad[idx];
+      if (!s) return;
+      document.getElementById('segEditIdx').value = String(idx);
+      document.getElementById('segNombre').value = s.empresa || '';
+      document.getElementById('segRut').value = s.rut || '';
+      document.getElementById('segWa').value = s.whatsapp || '';
+      document.getElementById('segVence').value = s.vence || '';
+      document.getElementById('segModulos').value = s.modulos || 'AMBOS';
+      desenvolverConClave(s.claveCifradaAdmin, claveMaestra).then(cl => {
+        document.getElementById('segClave').value = cl || '';
+      }).catch(() => {});
+      instTempSeguridad = (s.instalaciones || []).map(x => Object.assign({}, x));
+      renderChipsInstTempSeguridad();
+      document.getElementById('tituloFormSeguridad').innerText = "✏️ Editando Seguridad: " + s.empresa;
+      document.getElementById('btnCancelarEditSeguridad').classList.remove('hidden');
+      document.getElementById('segNombre').focus();
+    }
+
+    function cancelarEdicionSeguridad() {
+      document.getElementById('segEditIdx').value = '-1';
+      document.getElementById('segNombre').value = '';
+      document.getElementById('segRut').value = '';
+      document.getElementById('segClave').value = '';
+      document.getElementById('segWa').value = '';
+      document.getElementById('segVence').value = '';
+      document.getElementById('segModulos').value = 'AMBOS';
+      instTempSeguridad = [];
+      renderChipsInstTempSeguridad();
+      document.getElementById('tituloFormSeguridad').innerText = "🛡️ Empresa de Seguridad Multi-Instalación";
+      document.getElementById('btnCancelarEditSeguridad').classList.add('hidden');
+    }
+
+    async function guardarEmpresaSeguridad(e) {
+      e.preventDefault();
+      const idxEdit = parseInt(document.getElementById('segEditIdx').value, 10);
+      const emp = document.getElementById('segNombre').value.trim().toUpperCase();
+      const rut = document.getElementById('segRut').value.trim().toUpperCase();
+      const clave = document.getElementById('segClave').value.trim();
+      const wa = document.getElementById('segWa').value.trim();
+      const vence = document.getElementById('segVence').value.trim();
+      const modulos = document.getElementById('segModulos').value;
+      if (!emp || !clave) return;
+
+      const btn = document.getElementById('btnGuardarSeguridad');
+      btn.disabled = true;
+      btn.innerText = "⏳ CIFRANDO Y SINCRONIZANDO...";
+      try {
+        const existing = idxEdit >= 0 ? stateBoveda.empresasSeguridad[idxEdit] : null;
+        const nuevo = {
+          id: (existing && existing.id) || sanitizeId('SEG', emp),
+          tipoEntidad: 'EMPRESA_SEGURIDAD',
+          empresa: emp,
+          rut,
+          modulos,
+          instalaciones: instTempSeguridad.map(x => Object.assign({ activa: true }, x)),
+          hashClave: await sha256Hex('ECTOP_HASH_V1|' + clave),
+          sobreCifrado: await envolverConClave(claveMaestra, clave),
+          claveCifradaAdmin: await envolverConClave(clave, claveMaestra),
+          whatsapp: wa,
+          vence,
+          estado: (existing && existing.estado) || 'ACTIVA',
+          updatedAt: Date.now()
+        };
+        if (idxEdit >= 0) {
+          stateBoveda.empresasSeguridad[idxEdit] = nuevo;
+        } else {
+          const dup = stateBoveda.empresasSeguridad.findIndex(x => x.empresa === emp);
+          if (dup >= 0) stateBoveda.empresasSeguridad[dup] = nuevo;
+          else stateBoveda.empresasSeguridad.push(nuevo);
+        }
+        await guardarDatosBovedaNube();
+        cancelarEdicionSeguridad();
+        await renderTodoConsola();
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "💾 Guardar Empresa de Seguridad";
+      }
+    }
+
+    async function toggleInstSeguridad(sIdx, iIdx) {
+      const s = stateBoveda.empresasSeguridad[sIdx];
+      if (!s || !s.instalaciones || !s.instalaciones[iIdx]) return;
+      s.instalaciones[iIdx].activa = s.instalaciones[iIdx].activa === false;
+      s.updatedAt = Date.now();
+      await guardarDatosBovedaNube();
+      await renderTodoConsola();
+    }
+
+    async function toggleEstadoSeguridad(idx) {
+      const s = stateBoveda.empresasSeguridad[idx];
+      if (!s) return;
+      s.estado = (s.estado === 'SUSPENDIDA') ? 'ACTIVA' : 'SUSPENDIDA';
+      s.updatedAt = Date.now();
+      await guardarDatosBovedaNube();
+      await renderTodoConsola();
+    }
+
+    async function eliminarSeguridad(idx) {
+      const s = stateBoveda.empresasSeguridad[idx];
+      if (!s || !confirm("¿Eliminar permanentemente la empresa de seguridad " + s.empresa + "?")) return;
+      stateBoveda.empresasSeguridad.splice(idx, 1);
+      await guardarDatosBovedaNube();
+      await renderTodoConsola();
+    }
+
+    async function renderListaSeguridad() {
+      const box = document.getElementById('listaSeguridadBox');
+      if (!box) return;
+      const q = (document.getElementById('busqSeguridad')?.value || '').trim().toUpperCase();
+      const filtered = stateBoveda.empresasSeguridad.map((x, idx) => ({ x, idx })).filter(({ x }) => !q || String(x.empresa || '').toUpperCase().includes(q));
+      if (!filtered.length) {
+        box.innerHTML = '<div class="text-xs text-slate-500 text-center py-8 italic">No hay empresas de seguridad registradas aún.</div>';
+        return;
+      }
+      let html = '';
+      for (const { x, idx } of filtered) {
+        let claveTxt = '••••';
+        try { if (x.claveCifradaAdmin) claveTxt = await desenvolverConClave(x.claveCifradaAdmin, claveMaestra); } catch (_) {}
+        const act = x.estado !== 'SUSPENDIDA';
+        const modLabel = x.modulos === 'ACCESO' ? 'Solo Acceso' : x.modulos === 'LOGISTICA' ? 'Solo Logística' : 'Acceso + Logística';
+        const instList = Array.isArray(x.instalaciones) ? x.instalaciones : [];
+        const actInstCount = instList.filter(i => i.activa !== false).length;
+
+        const instPills = instList.map((inst, ii) => {
+          const iAct = inst.activa !== false;
+          return `<button type="button" onclick="toggleInstSeguridad(${idx},${ii})" title="Clic para activar/suspender esta instalación"
+            class="px-2.5 py-1 rounded-xl text-[11px] font-bold border text-left ${iAct ? 'bg-cyan-500/15 border-cyan-500/40 text-cyan-200' : 'bg-rose-500/15 border-rose-500/40 text-rose-300 line-through'}">
+            ${iAct ? '🟢' : '⛔'} ${esc(inst.planta || inst.nombre)} <span class="text-[10px] opacity-75">(${esc(inst.empresaCliente || '')})</span>
+          </button>`;
+        }).join('');
+
+        html += `
+          <div class="p-4 rounded-2xl bg-slate-950/90 border ${act ? 'border-cyan-500/40' : 'border-rose-500/50'} space-y-2.5">
+            <div class="flex flex-wrap items-start justify-between gap-2">
+              <div>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="text-sm font-black text-white">🛡️ ${esc(x.empresa)}</span>
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-black ${act ? 'bg-emerald-500/20 text-emerald-300' : 'bg-rose-500/20 text-rose-300'}">${act ? '● ACTIVA' : '⛔ SUSPENDIDA'}</span>
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-cyan-500/20 text-cyan-300">${actInstCount}/${instList.length} Instalaciones</span>
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-300">${modLabel}</span>
+                </div>
+                <div class="text-[11px] text-slate-400 mt-1 flex flex-wrap gap-3">
+                  <span>🔑 Clave Bóveda: <b class="text-cyan-300 font-mono select-all">${esc(claveTxt)}</b></span>
+                  ${x.whatsapp ? `<span>📱 ${esc(x.whatsapp)}</span>` : ''}
+                  ${x.vence ? `<span>📅 Vence: ${esc(x.vence)}</span>` : ''}
+                </div>
+              </div>
+              <div class="flex flex-wrap gap-1.5">
+                <button type="button" onclick="enviarWhatsAppBoveda('SEG',${idx})" class="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-black text-[10px]">📲 WA</button>
+                <button type="button" onclick="editarEmpresaSeguridad(${idx})" class="px-2.5 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-white font-bold text-[10px]">✏️</button>
+                <button type="button" onclick="toggleEstadoSeguridad(${idx})" class="px-2.5 py-1 rounded-lg ${act ? 'bg-amber-600 hover:bg-amber-500' : 'bg-emerald-600 hover:bg-emerald-500'} text-white font-black text-[10px]">${act ? '⏸️ Suspender' : '▶️ Activar'}</button>
+                <button type="button" onclick="eliminarSeguridad(${idx})" class="px-2 py-1 rounded-lg bg-rose-700 hover:bg-rose-600 text-white font-black text-[10px]">🗑️</button>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-1.5 pt-2 border-t border-slate-800/80">
+              ${instPills || '<span class="text-[11px] text-slate-500 italic">Sin instalaciones asignadas todavía.</span>'}
+            </div>
+          </div>`;
+      }
+      box.innerHTML = html;
+    }
+
+    // =========================================================================
+    // TAB 3: USUARIOS DE GERENCIA (CONTROL DE ACCESO + LOGÍSTICA CAMIONES)
+    // =========================================================================
+    function getEntidadesSegunTipo(tipo) {
+      return tipo === 'EMPRESA_SEGURIDAD' ? stateBoveda.empresasSeguridad : stateBoveda.licencias;
+    }
+
+    function poblarSelectEntidadesGerencia(selectedId = '') {
+      const tipo = document.getElementById('gerTipoEntidad')?.value || 'EMPRESA_SEGURIDAD';
+      const sel = document.getElementById('gerEntidadId');
+      if (!sel) return;
+      const lista = getEntidadesSegunTipo(tipo);
+      if (!lista.length) {
+        sel.innerHTML = '<option value="">-- Sin empresas registradas --</option>';
+        return;
+      }
+      sel.innerHTML = lista.map(e => `<option value="${esc(e.id)}" ${e.id === selectedId ? 'selected' : ''}>${esc(e.empresa)} (${(e.instalaciones || []).length} inst.)</option>`).join('');
+      if (selectedId && lista.some(e => e.id === selectedId)) sel.value = selectedId;
+    }
+
+    function toggleTodasInstGerencia() {
+      const todas = document.getElementById('chkGerTodasInst')?.checked;
+      document.querySelectorAll('.chk-ger-inst-item').forEach(el => {
+        el.disabled = !!todas;
+        if (todas) el.checked = true;
+      });
+    }
+
+    function renderCheckboxesInstGerencia(selectedInsts = null) {
+      const box = document.getElementById('gerInstCheckboxes');
+      const tipo = document.getElementById('gerTipoEntidad')?.value || 'EMPRESA_SEGURIDAD';
+      const entidadId = document.getElementById('gerEntidadId')?.value || '';
+      if (!box) return;
+      const ent = getEntidadesSegunTipo(tipo).find(e => e.id === entidadId);
+      const insts = ent && Array.isArray(ent.instalaciones) ? ent.instalaciones : [];
+      const chkTodas = document.getElementById('chkGerTodasInst');
+      if (Array.isArray(selectedInsts)) {
+        chkTodas.checked = selectedInsts.includes('TODAS') || selectedInsts.includes('*');
+      }
+      const todas = chkTodas.checked;
+
+      if (!insts.length) {
+        box.innerHTML = '<div class="text-[11px] text-slate-500 italic">Esta empresa operará con todas sus instalaciones predeterminadas.</div>';
+        return;
+      }
+      box.innerHTML = insts.map(i => {
+        const iKey = i.planta || i.nombre || i.id;
+        const marcado = todas || (Array.isArray(selectedInsts) && (selectedInsts.includes(i.id) || selectedInsts.includes(iKey)));
+        return `
+          <label class="flex items-center gap-2 px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 cursor-pointer">
+            <input type="checkbox" class="chk-ger-inst-item accent-emerald-500" value="${esc(iKey)}" data-inst-id="${esc(i.id)}" ${marcado ? 'checked' : ''} ${todas ? 'disabled' : ''}>
+            <span class="font-bold text-slate-200 truncate">📍 ${esc(i.planta || i.nombre)}</span>
+          </label>`;
+      }).join('');
+    }
+
+    function actualizarInfoRolCuentaGerencia() {
+      const rol = document.getElementById('gerRolCuenta')?.value || 'MASTER';
+      const box = document.getElementById('boxInfoRolCuentaGerencia');
+      if (!box) return;
+      if (rol === 'MASTER') {
+        box.className = 'mt-1.5 p-2 rounded-xl bg-amber-500/10 border border-amber-500/30 text-[10px] font-semibold text-amber-200 leading-snug';
+        box.innerHTML = '🔑 <b>Master de Instalación:</b> Puede iniciar sesión solo en las instalaciones asignadas abajo, crear/editar usuarios operativos (Guardias, RRHH, Romana, etc.) y configurar su sede. No ve licencias ni otras empresas.';
+      } else {
+        box.className = 'mt-1.5 p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-[10px] font-semibold text-emerald-200 leading-snug';
+        box.innerHTML = '👔 <b>Gerencia Corporativa:</b> Acceso exclusivo de Solo Lectura para supervisión ejecutiva e históricos exportables en sus sedes asignadas.';
+      }
+    }
+
+    function editarUsuarioGerencia(idx) {
+      const g = stateBoveda.usuariosGerencia[idx];
+      if (!g) return;
+      const rolCta = (g.rolCuenta === 'MASTER' || g.soloLectura === false) ? 'MASTER' : 'GERENCIA';
+      document.getElementById('gerEditIdx').value = String(idx);
+      const selRol = document.getElementById('gerRolCuenta');
+      if (selRol) selRol.value = rolCta;
+      actualizarInfoRolCuentaGerencia();
+      document.getElementById('gerNombre').value = g.nombre || '';
+      document.getElementById('gerUser').value = g.username || '';
+      document.getElementById('gerPass').value = g.pass || '';
+      document.getElementById('gerWa').value = g.whatsapp || '';
+      document.getElementById('gerTipoEntidad').value = g.tipoEntidad || 'EMPRESA_SEGURIDAD';
+      poblarSelectEntidadesGerencia(g.entidadId || '');
+      document.getElementById('chkAppAcceso').checked = (g.apps || []).includes('ACCESO');
+      document.getElementById('chkAppLogistica').checked = (g.apps || []).includes('LOGISTICA');
+      renderCheckboxesInstGerencia(g.instalaciones || ['TODAS']);
+      document.getElementById('tituloFormGerencia').innerText = (rolCta === 'MASTER' ? "✏️ Editando Master: " : "✏️ Editando Gerencia: ") + g.username;
+      document.getElementById('btnCancelarEditGerencia').classList.remove('hidden');
+      document.getElementById('gerNombre').focus();
+    }
+
+    function cancelarEdicionGerencia() {
+      document.getElementById('gerEditIdx').value = '-1';
+      const selRol = document.getElementById('gerRolCuenta');
+      if (selRol) selRol.value = 'MASTER';
+      actualizarInfoRolCuentaGerencia();
+      document.getElementById('gerNombre').value = '';
+      document.getElementById('gerUser').value = '';
+      document.getElementById('gerPass').value = '';
+      document.getElementById('gerWa').value = '';
+      document.getElementById('chkAppAcceso').checked = true;
+      document.getElementById('chkAppLogistica').checked = true;
+      document.getElementById('chkGerTodasInst').checked = true;
+      renderCheckboxesInstGerencia(['TODAS']);
+      document.getElementById('tituloFormGerencia').innerText = "🔑 Nuevo Usuario Master / Gerencia";
+      document.getElementById('btnCancelarEditGerencia').classList.add('hidden');
+    }
+
+    async function guardarUsuarioGerencia(e) {
+      e.preventDefault();
+      const idxEdit = parseInt(document.getElementById('gerEditIdx').value, 10);
+      const rolCuenta = (document.getElementById('gerRolCuenta')?.value === 'MASTER') ? 'MASTER' : 'GERENCIA';
+      const nombre = document.getElementById('gerNombre').value.trim().toUpperCase();
+      const username = document.getElementById('gerUser').value.trim().toLowerCase().replace(/\s+/g, '');
+      const pass = document.getElementById('gerPass').value.trim();
+      const whatsapp = document.getElementById('gerWa').value.trim();
+      const tipoEntidad = document.getElementById('gerTipoEntidad').value;
+      const entidadId = document.getElementById('gerEntidadId').value;
+      const ent = getEntidadesSegunTipo(tipoEntidad).find(x => x.id === entidadId);
+
+      const apps = [];
+      if (document.getElementById('chkAppAcceso').checked) apps.push('ACCESO');
+      if (document.getElementById('chkAppLogistica').checked) apps.push('LOGISTICA');
+      if (!apps.length) {
+        alert("Seleccione al menos una aplicación (Control de Acceso o Logística Camiones).");
+        return;
+      }
+
+      let instalaciones = ['TODAS'];
+      if (!document.getElementById('chkGerTodasInst').checked) {
+        const chks = Array.from(document.querySelectorAll('.chk-ger-inst-item:checked'));
+        instalaciones = chks.map(c => c.value);
+        if (!instalaciones.length) {
+          alert("Seleccione al menos una instalación o marque TODAS.");
+          return;
+        }
+      }
+
+      const existing = idxEdit >= 0 ? stateBoveda.usuariosGerencia[idxEdit] : null;
+      const nuevo = {
+        id: (existing && existing.id) || sanitizeId(rolCuenta === 'MASTER' ? 'MST' : 'GER', username),
+        rolCuenta,
+        nombre,
+        username,
+        pass,
+        whatsapp,
+        tipoEntidad,
+        entidadId: ent ? ent.id : entidadId,
+        entidadNombre: ent ? ent.empresa : 'CORPORATIVO',
+        apps,
+        instalaciones,
+        soloLectura: rolCuenta !== 'MASTER',
+        estado: (existing && existing.estado) || 'ACTIVA',
+        updatedAt: Date.now()
+      };
+
+      if (idxEdit >= 0) {
+        stateBoveda.usuariosGerencia[idxEdit] = nuevo;
+      } else {
+        const dup = stateBoveda.usuariosGerencia.findIndex(x => x.username.toLowerCase() === username);
+        if (dup >= 0) stateBoveda.usuariosGerencia[dup] = nuevo;
+        else stateBoveda.usuariosGerencia.push(nuevo);
+      }
+
+      await guardarDatosBovedaNube();
+      cancelarEdicionGerencia();
+      await renderTodoConsola();
+    }
+
+    async function toggleEstadoGerencia(idx) {
+      const g = stateBoveda.usuariosGerencia[idx];
+      if (!g) return;
+      g.estado = (g.estado === 'SUSPENDIDA') ? 'ACTIVA' : 'SUSPENDIDA';
+      g.updatedAt = Date.now();
+      await guardarDatosBovedaNube();
+      await renderTodoConsola();
+    }
+
+    async function eliminarUsuarioGerencia(idx) {
+      const g = stateBoveda.usuariosGerencia[idx];
+      if (!g || !confirm("¿Eliminar usuario de gerencia " + g.username + "?")) return;
+      stateBoveda.usuariosGerencia.splice(idx, 1);
+      await guardarDatosBovedaNube();
+      await renderTodoConsola();
+    }
+
+    function enviarWhatsAppGerencia(idx) {
+      const g = stateBoveda.usuariosGerencia[idx];
+      if (!g) return;
+      const esMaster = (g.rolCuenta === 'MASTER' || g.soloLectura === false);
+      const ent = getEntidadesSegunTipo(g.tipoEntidad).find(x => x.id === g.entidadId);
+      const links = [];
+      if (g.apps.includes('ACCESO')) links.push("🛡️ Control de Acceso Web: https://laloxz.github.io/ectop/app.html");
+      if (g.apps.includes('LOGISTICA')) links.push("🚛 Logística Camiones Web: https://laloxz.github.io/ectop/logistica_app.html");
+      const msg = [
+        esMaster ? "*CREDENCIAL MASTER DE INSTALACIÓN E&C TOP*" : "*CREDENCIAL DE GERENCIA E&C TOP*",
+        "Titular: *" + g.nombre + "*",
+        "Empresa: *" + (g.entidadNombre || '') + "*",
+        "🛡️ Perfil: *" + (esMaster ? "MASTER (Gestión de Usuarios y Sede)" : "GERENCIA (Solo Lectura + Históricos)") + "*",
+        "👤 Usuario: *" + g.username + "*",
+        "🔑 Contraseña: *" + g.pass + "*",
+        "📍 Instalaciones: *" + (g.instalaciones.includes('TODAS') ? 'Todas las asignadas (' + (g.entidadNombre || '') + ')' : g.instalaciones.join(', ')) + "*",
+        "",
+        ...links,
+        ent ? "_Nota: La primera vez que abra el sistema ingrese la clave de bóveda empresarial entregada por administración._" : "",
+        "_Soporte: Eduardo Martínez Venegas • +56 9 5350 7453_"
+      ].filter(Boolean).join("\n");
+      const num = String(g.whatsapp || '').replace(/\D/g, '');
+      const url = num ? ("https://wa.me/" + num + "?text=" + encodeURIComponent(msg)) : ("https://wa.me/?text=" + encodeURIComponent(msg));
+      abrirExternoSeguro(url);
+    }
+
+    function renderListaGerencia() {
+      const box = document.getElementById('listaGerenciaBox');
+      if (!box) return;
+      const q = (document.getElementById('busqGerencia')?.value || '').trim().toUpperCase();
+      const filtered = stateBoveda.usuariosGerencia.map((x, idx) => ({ x, idx }))
+        .filter(({ x }) => !q || (x.nombre + ' ' + x.username + ' ' + x.entidadNombre + ' ' + (x.rolCuenta || '')).toUpperCase().includes(q));
+      if (!filtered.length) {
+        box.innerHTML = '<div class="text-xs text-slate-500 text-center py-8 italic">No hay usuarios Master o Gerencia creados todavía.</div>';
+        return;
+      }
+      box.innerHTML = filtered.map(({ x, idx }) => {
+        const act = x.estado !== 'SUSPENDIDA';
+        const esSeg = x.tipoEntidad === 'EMPRESA_SEGURIDAD';
+        const esMaster = (x.rolCuenta === 'MASTER' || x.soloLectura === false);
+        const cardBorder = !act ? 'border-rose-500/50' : (esMaster ? 'border-amber-500/45' : 'border-emerald-500/35');
+        return `
+          <div class="p-3.5 rounded-2xl bg-slate-950/90 border ${cardBorder} space-y-2">
+            <div class="flex flex-wrap items-start justify-between gap-2">
+              <div>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="text-sm font-black text-white">${esMaster ? '🔑' : '👔'} ${esc(x.nombre)}</span>
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-black ${esMaster ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' : 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30'}">${esMaster ? 'MASTER SEDE' : 'GERENCIA (LECTURA)'}</span>
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-black ${act ? 'bg-emerald-500/20 text-emerald-300' : 'bg-rose-500/20 text-rose-300'}">${act ? '● ACTIVO' : '⛔ BLOQUEADO'}</span>
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${esSeg ? 'bg-cyan-500/15 text-cyan-300' : 'bg-amber-500/15 text-amber-300'}">${esSeg ? '🛡️ ' : '🏢 '}${esc(x.entidadNombre)}</span>
+                </div>
+                <div class="text-[11px] text-slate-300 mt-1 flex flex-wrap gap-3">
+                  <span>👤 Usuario: <b class="text-emerald-300 font-mono select-all">${esc(x.username)}</b></span>
+                  <span>🔑 Clave: <b class="text-amber-300 font-mono select-all">${esc(x.pass)}</b></span>
+                  <span>📍 Sedes: <b>${x.instalaciones.includes('TODAS') ? 'Todas (' + esc(x.entidadNombre) + ')' : esc(x.instalaciones.join(', '))}</b></span>
+                </div>
+              </div>
+              <div class="flex flex-wrap gap-1.5">
+                <button type="button" onclick="enviarWhatsAppGerencia(${idx})" class="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-black text-[10px]">📲 WA</button>
+                <button type="button" onclick="editarUsuarioGerencia(${idx})" class="px-2.5 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-white font-bold text-[10px]">✏️</button>
+                <button type="button" onclick="toggleEstadoGerencia(${idx})" class="px-2.5 py-1 rounded-lg ${act ? 'bg-amber-600 hover:bg-amber-500' : 'bg-emerald-600 hover:bg-emerald-500'} text-white font-black text-[10px]">${act ? '⏸️ Bloquear' : '▶️ Activar'}</button>
+                <button type="button" onclick="eliminarUsuarioGerencia(${idx})" class="px-2 py-1 rounded-lg bg-rose-700 hover:bg-rose-600 text-white font-black text-[10px]">🗑️</button>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-1.5 pt-1 border-t border-slate-800/80 text-[10px] font-bold">
+              ${(x.apps || []).includes('ACCESO') ? '<span class="px-2 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 text-amber-300">🛡️ Control de Acceso (Web/.EXE/.APK)</span>' : ''}
+              ${(x.apps || []).includes('LOGISTICA') ? '<span class="px-2 py-0.5 rounded bg-cyan-500/15 border border-cyan-500/30 text-cyan-300">🚛 Logística de Camiones (Web/.APK)</span>' : ''}
+            </div>
+          </div>`;
+      }).join('');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,438 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E&C TOP — Plataforma Corporativa SaaS | Control de Acceso ERP & Logística de Camiones SAP</title>
+  <meta name="description" content="E&C TOP — Ecosistema Industrial en Nube Privada E&C TOP Cloud con Respaldo Automático 24/7 + SAP ERP. Suscripciones de Aplicaciones Web, Ejecutables PC (.EXE) y Apps Android (.APK) para Control de Acceso y Logística de Camiones 20+ Plantas.">
+  <link rel="icon" type="image/png" href="Logo_ECTOP_192.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: #020617;
+      color: #f8fafc;
+      scroll-behavior: smooth;
+    }
+    .hero-bg {
+      background:
+        radial-gradient(circle at 12% 18%, rgba(245, 158, 11, 0.16) 0%, transparent 42%),
+        radial-gradient(circle at 88% 22%, rgba(16, 185, 129, 0.14) 0%, transparent 45%),
+        radial-gradient(circle at 50% 85%, rgba(59, 130, 246, 0.12) 0%, transparent 50%),
+        linear-gradient(180deg, #020617 0%, #0f172a 100%);
+    }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(148, 163, 184, 0.15);
+      transition: all 0.25s ease;
+    }
+    .glass-card:hover {
+      border-color: rgba(245, 158, 11, 0.45);
+      transform: translateY(-3px);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-amber-500 selection:text-slate-950">
+
+  <!-- BARRA SUPERIOR DE NAVEGACIÓN -->
+  <header class="sticky top-0 z-50 border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="Logo_ECTOP_192.png" alt="Logo E&C TOP" class="w-12 h-12 rounded-xl border border-amber-400/50 shadow-lg object-cover" onerror="this.style.display='none'">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xl font-black tracking-tight text-white">E&amp;C <span class="text-amber-400">TOP</span></span>
+            <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">SaaS Industrial &amp; SAP Cloud</span>
+          </div>
+          <p class="text-[11px] text-slate-400 font-medium">Control de Acceso ERP • Logística de Camiones 20+ Plantas • Respaldo Cloud 24/7</p>
+        </div>
+      </div>
+
+      <nav class="hidden lg:flex items-center gap-6 text-xs font-bold uppercase tracking-wider text-slate-300">
+        <a href="#control-acceso" class="hover:text-amber-400 transition">🛡️ Control de Acceso</a>
+        <a href="#logistica-camiones" class="hover:text-emerald-400 transition">🚛 Logística Camiones</a>
+        <a href="#respaldo-cloud" class="hover:text-cyan-400 transition">☁️ Respaldo Seguro + SAP</a>
+        <a href="#suscripciones" class="hover:text-amber-400 transition">💳 Planes &amp; Licencias</a>
+        <a href="#contacto" class="hover:text-amber-400 transition">📞 Contacto</a>
+      </nav>
+
+      <div class="flex items-center gap-2.5">
+        <a href="app.html" class="px-3.5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs uppercase tracking-wide shadow-lg transition">
+          🛡️ Web Control Acceso
+        </a>
+        <a href="logistica_app.html" class="px-3.5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs uppercase tracking-wide shadow-lg transition">
+          🚛 Web Logística Camiones
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO PRINCIPAL -->
+  <section class="hero-bg relative overflow-hidden py-16 lg:py-24 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-12 gap-10 items-center">
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-bold">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            Ecosistema Empresarial Unificado — Web Cloud + Ejecutables PC (.EXE) + Apps Android (.APK)
+          </div>
+
+          <h1 class="text-4xl sm:text-5xl font-black tracking-tight leading-tight text-white">
+            Plataforma Central <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-300 to-emerald-400">E&amp;C TOP</span>: Control de Acceso &amp; Logística de Camiones
+          </h1>
+
+          <p class="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl">
+            Todas las soluciones tecnológicas de <b>E&amp;C TOP</b> reunidas en un mismo portal corporativo con <b>Respaldo Automático 24/7 en Nube Privada Cifrada (AES-256) e Integración SAP S/4HANA</b>. Comercialización bajo suscripción empresarial con aplicaciones nativas <b>.APK</b>, motores de escritorio <b>.EXE</b> y portales web en tiempo real.
+          </p>
+
+          <!-- BOTONES RÁPIDOS A LAS 2 GRANDES PLATAFORMAS -->
+          <div class="grid sm:grid-cols-2 gap-3 pt-2">
+            <a href="app.html" class="flex items-center justify-between px-5 py-4 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-black text-xs uppercase tracking-wider shadow-xl transition">
+              <span>🛡️ 1. Abrir Web Control de Acceso ERP</span>
+              <span>→</span>
+            </a>
+            <a href="logistica_app.html" class="flex items-center justify-between px-5 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-black text-xs uppercase tracking-wider shadow-xl transition">
+              <span>🚛 2. Abrir Web Logística Camiones (20+ Plantas)</span>
+              <span>→</span>
+            </a>
+            <a href="logistica_movil_app.html" class="flex items-center justify-between px-5 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-cyan-300 font-black text-xs uppercase tracking-wider border border-cyan-500/40 transition">
+              <span>📱 3. App Web Móvil Portería Camiones &amp; Guías</span>
+              <span>→</span>
+            </a>
+            <a href="conductor_movil_app.html" class="flex items-center justify-between px-5 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-purple-300 font-black text-xs uppercase tracking-wider border border-purple-500/40 transition">
+              <span>🚚 4. App Web Móvil Conductor en Ruta</span>
+              <span>→</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- PANEL RESUMEN EJECUTIVO -->
+        <div class="lg:col-span-5">
+          <div class="glass-card rounded-3xl p-6 border border-amber-500/30 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+              <div class="flex items-center gap-3">
+                <img src="Logo_ECTOP_192.png" alt="E&C TOP" class="w-11 h-11 rounded-xl border border-amber-400/40">
+                <div>
+                  <div class="text-sm font-black text-white"> CENTRO DE SISTEMAS E&amp;C TOP</div>
+                  <div class="text-[11px] text-emerald-400 font-bold">● Respaldo en Nube Privada E&amp;C TOP 24/7 + SAP</div>
+                </div>
+              </div>
+              <span class="px-2.5 py-1 rounded-lg bg-slate-900 text-amber-400 font-mono text-[11px] font-bold border border-slate-700">SUITE 2026</span>
+            </div>
+
+            <div class="space-y-3 text-xs">
+              <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-amber-500/30">
+                <div class="flex justify-between items-center mb-1">
+                  <span class="font-black text-amber-400 uppercase">🛡️ Suite 1: Control de Acceso &amp; Prevención</span>
+                  <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold text-[10px]">ACTIVO</span>
+                </div>
+                <p class="text-slate-400 text-[11px] mb-2">Pórtico Peatonal/Vehicular, Nómina Maestra (782+), Flayers QR con Firma Digital (Nombre y RUT) y Escáner SII.</p>
+                <div class="flex flex-wrap gap-1.5">
+                  <a href="app.html" class="px-2.5 py-1 rounded-lg bg-amber-500 text-slate-950 font-black text-[10px]">🌐 Abrir Web ERP</a>
+                  <a href="normas.html?tipo=VISITA&cod=DEMO-0001&planta=Patagoniafresh" class="px-2.5 py-1 rounded-lg bg-purple-600 text-white font-black text-[10px]">📲 Portal QR Flayers</a>
+                  <span class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 font-bold text-[10px]">💻 .EXE Windows</span>
+                  <span class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 font-bold text-[10px]">📱 .APK Android</span>
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-emerald-500/30">
+                <div class="flex justify-between items-center mb-1">
+                  <span class="font-black text-emerald-400 uppercase">🚛 Suite 2: Logística de Camiones (20+ Plantas)</span>
+                  <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold text-[10px]">ACTIVO</span>
+                </div>
+                <p class="text-slate-400 text-[11px] mb-2">Torre de Control Multi-Planta, Guías de Despacho Electrónicas, Tiempos de Estadía, App Portería Camiones y App Chofer.</p>
+                <div class="flex flex-wrap gap-1.5">
+                  <a href="logistica_app.html" class="px-2.5 py-1 rounded-lg bg-emerald-500 text-slate-950 font-black text-[10px]">🌐 Torre Control Web</a>
+                  <a href="logistica_movil_app.html" class="px-2.5 py-1 rounded-lg bg-cyan-600 text-white font-black text-[10px]">📱 App Web Camiones</a>
+                  <a href="conductor_movil_app.html" class="px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-black text-[10px]">🚚 App Web Conductor</a>
+                  <a href="#suscripciones" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-emerald-300 font-bold text-[10px]">⬇ APK Camiones</a>
+                  <a href="#suscripciones" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold text-[10px]">⬇ APK Conductor</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-2xl bg-emerald-950/40 border border-emerald-500/30 flex items-center justify-between text-xs">
+              <div>
+                <div class="font-black text-emerald-300">🔒 Propiedad Intelectual Registrada</div>
+                <div class="text-[11px] text-slate-400">Autor: Eduardo Martínez Venegas • Licenciamiento por Suscripción</div>
+              </div>
+              <a href="#suscripciones" class="px-3 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-black text-[10px] uppercase">Ver Planes</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 1: SISTEMA CONTROL DE ACCESO ERP -->
+  <section id="control-acceso" class="py-16 bg-slate-950 border-b border-slate-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div>
+          <span class="text-xs font-black uppercase tracking-widest text-amber-400">Plataforma 01 • Seguridad Patrimonial &amp; Prevención</span>
+          <h2 class="text-3xl font-black text-white mt-1">🛡️ Sistema ERP Control de Acceso Industrial</h2>
+          <p class="text-sm text-slate-400 mt-1">Control en tiempo real de trabajadores propios, contratistas, visitas, taxis y camiones en pórtico.</p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <a href="app.html" class="px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs uppercase shadow-lg transition">
+            🖥️ Abrir Página Web Control de Acceso
+          </a>
+          <a href="normas.html?tipo=VISITA&cod=VIS-0001&planta=Patagoniafresh" class="px-4 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-black text-xs uppercase shadow-lg transition">
+            📲 Abrir Portal QR Flayers
+          </a>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="glass-card rounded-3xl p-6">
+          <div class="text-amber-400 font-black text-xs uppercase mb-2">🌐 Aplicación Web &amp; PWA</div>
+          <h3 class="text-lg font-black text-white mb-2">Pórtico Peatonal, Contratistas y Visitas</h3>
+          <p class="text-xs text-slate-400 leading-relaxed mb-4">
+            Lectura instantánea de Cédula de Identidad Chilena (QR/PDF417), validación contra nómina maestra en la <b>Nube Privada E&amp;C TOP</b>, bloqueo automático de pases vencidos y alertas en pantalla.
+          </p>
+          <a href="app.html" class="inline-flex items-center gap-1 text-xs font-black text-amber-400 hover:text-amber-300">Entrar a la Aplicación Web →</a>
+        </div>
+
+        <div class="glass-card rounded-3xl p-6">
+          <div class="text-purple-400 font-black text-xs uppercase mb-2">📲 Flayers &amp; Firma Digital</div>
+          <h3 class="text-lg font-black text-white mb-2">Prevención de Riesgos con Firma (Nombre y RUT)</h3>
+          <p class="text-xs text-slate-400 leading-relaxed mb-4">
+            Entrega de <b>Flayers de Normas de Planta y Conducción</b> con vigencia automática de 12 meses, firma digital con <b>Nombre y RUT</b> desde celular o portería y respaldo legal instantáneo en la nube.
+          </p>
+          <a href="normas.html?tipo=CONDUCTOR&cod=COND-0001&planta=Patagoniafresh" class="inline-flex items-center gap-1 text-xs font-black text-purple-400 hover:text-purple-300">Ver Portal QR de Firma →</a>
+        </div>
+
+        <div class="glass-card rounded-3xl p-6">
+          <div class="text-emerald-400 font-black text-xs uppercase mb-2">💻 Ejecutable .EXE + 📱 App .APK</div>
+          <h3 class="text-lg font-black text-white mb-2">Licencias Nativas para PC y Celulares</h3>
+          <p class="text-xs text-slate-400 leading-relaxed mb-4">
+            Incluye el motor blindado de escritorio <b><code>Control_de_Acceso_ECTOP.exe</code></b> (con servidor Wi-Fi integrado y bóveda AES-256) y la aplicación nativa Android <b><code>Control_de_Acceso_ECTOP.apk</code></b>.
+          </p>
+          <a href="#suscripciones" class="inline-flex items-center gap-1 text-xs font-black text-emerald-400 hover:text-emerald-300">Solicitar Suscripción .EXE + .APK →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 2: SISTEMA LOGÍSTICA DE CAMIONES Y FLOTAS 20+ PLANTAS -->
+  <section id="logistica-camiones" class="py-16 bg-slate-900/60 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div>
+          <span class="text-xs font-black uppercase tracking-widest text-emerald-400">Plataforma 02 • Transporte, Guías SII, Andenes &amp; Flotas</span>
+          <h2 class="text-3xl font-black text-white mt-1">🚛 Sistema Enterprise de Logística de Camiones (20+ Plantas)</h2>
+          <p class="text-sm text-slate-400 mt-1">Alojado e integrado en la misma nube privada de E&amp;C TOP con sus páginas web y aplicaciones móviles (.APK) para Portería y Conductores.</p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <a href="logistica_app.html" class="px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs uppercase shadow-lg transition">
+            🌐 Abrir Torre de Control Logística (Web PC)
+          </a>
+          <a href="logistica_movil_app.html" class="px-4 py-3 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-black text-xs uppercase shadow-lg transition">
+            📱 Abrir Web Móvil Camiones &amp; Guías
+          </a>
+          <a href="conductor_movil_app.html" class="px-4 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs uppercase shadow-lg transition">
+            🚚 Abrir Web Móvil Conductor
+          </a>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Tarjeta 1: Torre de Control Web Logística -->
+        <div class="glass-card rounded-3xl p-6 border border-emerald-500/30">
+          <div class="flex items-center justify-between mb-3">
+            <span class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 font-black text-[10px] uppercase">Página Web Central &amp; PC</span>
+            <span class="text-xs font-mono text-slate-400">20+ Plantas</span>
+          </div>
+          <h3 class="text-lg font-black text-white mb-2">🌐 Torre de Control Logística Multi-Planta</h3>
+          <p class="text-xs text-slate-400 leading-relaxed mb-5">
+            Panel central para Jefes de Logística, Despacho, Recepción y Romana. Emisión de Guías con Código QR, monitoreo satelital GPS de camiones en tránsito, control de andenes, sellos y auditoría criptográfica SHA-256.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <a href="logistica_app.html" class="w-full text-center py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs uppercase transition">
+              🖥️ Lanzar Página Web Logística
+            </a>
+          </div>
+        </div>
+
+        <!-- Tarjeta 2: App Móvil Portería Camiones & Guías (.APK + Web) -->
+        <div class="glass-card rounded-3xl p-6 border border-cyan-500/30">
+          <div class="flex items-center justify-between mb-3">
+            <span class="px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 font-black text-[10px] uppercase">App Portería &amp; Romana</span>
+            <span class="text-xs font-mono text-slate-400">Web + .APK</span>
+          </div>
+          <h3 class="text-lg font-black text-white mb-2">📱 App Logística de Camiones y Guías</h3>
+          <p class="text-xs text-slate-400 leading-relaxed mb-5">
+            Aplicación especializada para control de camiones en pórtico, lectura de QR de Guías de Despacho, cálculo automático de estadía en planta (`CON QR` / `SIN QR`), patente tracto/rampla y respaldo automático en vivo.
+          </p>
+          <div class="grid grid-cols-2 gap-2">
+            <a href="logistica_movil_app.html" class="text-center py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-[11px] uppercase transition">
+              🌐 Abrir Web Móvil
+            </a>
+            <a href="#suscripciones" class="text-center py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 font-black text-[11px] uppercase border border-cyan-500/40 transition">
+              ⬇ Descargar .APK
+            </a>
+          </div>
+        </div>
+
+        <!-- Tarjeta 3: App Móvil Conductores en Ruta (.APK + Web) -->
+        <div class="glass-card rounded-3xl p-6 border border-indigo-500/30">
+          <div class="flex items-center justify-between mb-3">
+            <span class="px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 font-black text-[10px] uppercase">App Choferes en Ruta</span>
+            <span class="text-xs font-mono text-slate-400">Web + .APK</span>
+          </div>
+          <h3 class="text-lg font-black text-white mb-2">🚚 App Móvil para Conductores</h3>
+          <p class="text-xs text-slate-400 leading-relaxed mb-5">
+            Aplicación para el chofer del camión con pase QR digital de despacho, telemetría GPS en ruta, reporte de incidentes/SOS en carretera y avisos de llamado a muelle/andén de carga en tiempo real.
+          </p>
+          <div class="grid grid-cols-2 gap-2">
+            <a href="conductor_movil_app.html" class="text-center py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-black text-[11px] uppercase transition">
+              🌐 Abrir Web Chofer
+            </a>
+            <a href="#suscripciones" class="text-center py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-300 font-black text-[11px] uppercase border border-indigo-500/40 transition">
+              ⬇ Descargar .APK
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 3: GARANTÍA DE RESPALDO EN LA NUBE E&C TOP + CONECTOR SAP -->
+  <section id="respaldo-cloud" class="py-16 bg-slate-950 border-b border-slate-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="glass-card rounded-3xl p-8 border border-cyan-500/30">
+        <div class="grid lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-7 space-y-4">
+            <span class="text-xs font-black uppercase tracking-widest text-cyan-400">Seguridad de Datos &amp; Continuidad Operacional 24/7</span>
+            <h2 class="text-2xl sm:text-3xl font-black text-white">Todo su Historial 100% Respaldado en la Nube E&amp;C TOP y Conectado con SAP</h2>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              Cada ingreso peatonal, camión, guía de despacho y firma digital de prevención se respalda automáticamente en tiempo real bajo cifrado militar <b>AES-256</b>, garantizando cero pérdida de información ante cortes de internet o energía y permitiendo integración directa con <b>SAP Business One, SAP ECC y SAP S/4HANA</b>.
+            </p>
+            <div class="grid sm:grid-cols-3 gap-3 pt-2 text-xs">
+              <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                <div class="font-black text-amber-400">SAP MM / MIGO</div>
+                <div class="text-[11px] text-slate-400">Recepción de materias primas y guías de proveedores (`XBLNR`).</div>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                <div class="font-black text-emerald-400">SAP SD / LE-TRA</div>
+                <div class="text-[11px] text-slate-400">Despacho de camiones, patentes (`SIGNI`), sellos y tiempos de estadía.</div>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                <div class="font-black text-cyan-400">SAP HR / HCM</div>
+                <div class="text-[11px] text-slate-400">Control de asistencia, dotación en planta y empresas contratistas.</div>
+              </div>
+            </div>
+          </div>
+          <div class="lg:col-span-5 bg-slate-900/90 rounded-2xl p-6 border border-emerald-500/30 text-xs space-y-3">
+            <div class="text-emerald-400 font-black uppercase tracking-wider text-sm">🛡️ Garantías de Respaldo E&amp;C TOP Cloud:</div>
+            <div class="flex items-center gap-2 text-slate-200"><span class="text-emerald-400 font-black">✔</span> Respaldo Automático e Instantáneo 24/7 en Nube Privada</div>
+            <div class="flex items-center gap-2 text-slate-200"><span class="text-emerald-400 font-black">✔</span> Bóveda Criptográfica Militar AES-256 + SHA-256</div>
+            <div class="flex items-center gap-2 text-slate-200"><span class="text-emerald-400 font-black">✔</span> Continuidad Offline/Online (Opera con o sin Internet)</div>
+            <div class="flex items-center gap-2 text-slate-200"><span class="text-emerald-400 font-black">✔</span> Historial Completo Auditable para Prevención y SII</div>
+            <div class="flex items-center gap-2 text-slate-200"><span class="text-emerald-400 font-black">✔</span> Sincronización Simultánea entre PC (.EXE), Android (.APK) y Web</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 4: PLANES DE SUSCRIPCIÓN EMPRESARIAL (MODELO SAAS CON FACTURACIÓN SII) -->
+  <section id="suscripciones" class="py-16 bg-slate-900/40 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="text-xs font-black uppercase tracking-widest text-amber-400">Modelo Comercial SaaS • Licenciamiento por Suscripción</span>
+        <h2 class="text-3xl font-black text-white mt-2">Suscripción Empresarial (.APK + .EXE + Plataforma Web)</h2>
+        <p class="text-sm text-slate-400 mt-2">
+          Comercialización mediante suscripción mensual o anual por planta industrial. Incluye actualizaciones OTA, respaldo automático 24/7 en la nube privada de E&amp;C TOP y licencias activas para computadores de portería y celulares de guardias/conductores.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Plan 1 -->
+        <div class="glass-card rounded-3xl p-7 border border-slate-700 flex flex-col justify-between">
+          <div>
+            <span class="text-[11px] font-black uppercase text-amber-400">Suscripción Módulo 01</span>
+            <h3 class="text-xl font-black text-white mt-1">Control de Acceso &amp; Prevención</h3>
+            <p class="text-xs text-slate-400 mt-2 mb-5">Ideal para plantas industriales, agroindustria y control de contratistas/visitas.</p>
+            <ul class="space-y-2.5 text-xs text-slate-300 mb-6">
+              <li>✅ <b>Página Web ERP</b> con Bóveda exclusiva para su empresa</li>
+              <li>✅ <b>Ejecutable PC Windows (<code>.EXE</code>)</b> con Bóveda AES-256</li>
+              <li>✅ <b>App Android (<code>.APK</code>)</b> para Guardias y Pórticos</li>
+              <li>✅ <b>Portal QR de Flayers</b> con Firma Digital (Nombre y RUT)</li>
+              <li>✅ <b>Respaldo Automático 24/7</b> en Nube Privada Cifrada</li>
+            </ul>
+          </div>
+          <a href="https://wa.me/56953507453?text=Hola%20Eduardo,%20me%20interesa%20cotizar%20la%20Suscripci%C3%B3n%20de%20Control%20de%20Acceso%20E%26C%20TOP%20(.APK%20+%20.EXE%20+%20Web)" target="_blank" class="w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs uppercase text-center transition">
+            Cotizar Suscripción Acceso
+          </a>
+        </div>
+
+        <!-- Plan 2 -->
+        <div class="glass-card rounded-3xl p-7 border border-emerald-500/40 flex flex-col justify-between">
+          <div>
+            <span class="text-[11px] font-black uppercase text-emerald-400">Suscripción Módulo 02</span>
+            <h3 class="text-xl font-black text-white mt-1">Logística de Camiones &amp; Flotas</h3>
+            <p class="text-xs text-slate-400 mt-2 mb-5">Para centros de distribución, transporte interplanta y control de guías SII.</p>
+            <ul class="space-y-2.5 text-xs text-slate-300 mb-6">
+              <li>✅ <b>Página Web Torre de Control</b> (Hasta 20+ Plantas)</li>
+              <li>✅ <b>App Móvil Camiones y Guías (<code>.APK</code> + Web)</b></li>
+              <li>✅ <b>App Móvil Conductores en Ruta (<code>.APK</code> + Web)</b></li>
+              <li>✅ Escáner QR SII <code>&lt;TED&gt;</code>, estadía y sellos</li>
+              <li>✅ <b>Respaldo en Vivo 24/7</b> e integración con <b>SAP</b></li>
+            </ul>
+          </div>
+          <a href="https://wa.me/56953507453?text=Hola%20Eduardo,%20me%20interesa%20cotizar%20la%20Suscripci%C3%B3n%20de%20Log%C3%ADstica%20de%20Camiones%20E%26C%20TOP" target="_blank" class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs uppercase text-center transition">
+            Cotizar Suscripción Logística
+          </a>
+        </div>
+
+        <!-- Plan 3: Full Suite -->
+        <div class="glass-card rounded-3xl p-7 border-2 border-amber-400 flex flex-col justify-between relative">
+          <div class="absolute -top-3 right-6 px-3 py-0.5 rounded-full bg-amber-400 text-slate-950 font-black text-[10px] uppercase">Suite Completa Corporativa</div>
+          <div>
+            <span class="text-[11px] font-black uppercase text-amber-300">Suscripción Integral E&amp;C TOP</span>
+            <h3 class="text-xl font-black text-white mt-1">Full ERP Acceso + Logística + SAP</h3>
+            <p class="text-xs text-slate-400 mt-2 mb-5">Todo el ecosistema de E&amp;C TOP trabajando unificado en la misma nube empresarial.</p>
+            <ul class="space-y-2.5 text-xs text-slate-300 mb-6">
+              <li>✅ <b>Ambas Plataformas Web</b> (Control de Acceso + Logística Camiones)</li>
+              <li>✅ <b>Todos los Ejecutables PC (<code>.EXE</code>)</b> ilimitados por planta</li>
+              <li>✅ <b>Las 3 Aplicaciones Android (<code>.APK</code>)</b> con actualización OTA</li>
+              <li>✅ <b>Conector SAP S/4HANA &amp; Business One</b> activo</li>
+              <li>✅ Soporte directo e implementación personalizada</li>
+            </ul>
+          </div>
+          <a href="https://wa.me/56953507453?text=Hola%20Eduardo,%20me%20interesa%20contratar%20la%20Suscripci%C3%B3n%20Suite%20Completa%20E%26C%20TOP%20(Acceso%20+%20Log%C3%ADstica%20+%20SAP)" target="_blank" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-400 to-emerald-400 text-slate-950 font-black text-xs uppercase text-center shadow-xl transition">
+            Solicitar Suite Completa
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO Y PROPIEDAD INTELECTUAL -->
+  <footer id="contacto" class="py-12 bg-slate-950 text-slate-400 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <img src="Logo_ECTOP_192.png" alt="E&C TOP" class="w-10 h-10 rounded-xl border border-amber-400/50">
+        <div>
+          <div class="text-white font-black text-sm">E&amp;C TOP — Soluciones ERP Industriales &amp; Logística SAP</div>
+          <div>Desarrollado y Registrado por <b class="text-amber-400">Eduardo Martínez Venegas</b> • Todos los derechos reservados © 2026</div>
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href="https://wa.me/56953507453" target="_blank" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black uppercase">
+          💬 WhatsApp: +56 9 5350 7453
+        </a>
+        <a href="mailto:eduardomartinezvenegas@gmail.com" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold">
+          ✉️ eduardomartinezvenegas@gmail.com
+        </a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
+
